@@ -1,128 +1,162 @@
+\chapter{Fundamentação teórica}
+\label{cap:FundamentacaoTeorica}
 
-\chapter{Fundamentação Teórica} \label{cap:FundamentacaoTeorica}
-
+Este capítulo apresenta os conceitos necessários à análise da digitalização do QRQC. Delimita a digitalização de processos, apresenta as etapas e as informações do QRQC e discute a organização dos dados na manufatura. Em seguida, aborda as formas de desenvolvimento de aplicações, os recursos do Mendix e os estudos que orientam o recorte adotado.
 
 \section{Digitalização industrial e transformação digital}
 
-A digitalização industrial pode ser compreendida como a conversão de atividades, registros e fluxos de informação, antes realizados de forma manual ou analógica, para meios digitais. No contexto da manufatura, essa mudança favorece a rastreabilidade, reduz limitações associadas ao preenchimento manual e facilita o acompanhamento das operações produtivas \cite{leite2024}.
+A transformação digital envolve mudanças nos processos, na estrutura, na estratégia, nas competências e na cultura organizacional \cite[p.~57]{murici2022}. Neste trabalho, a digitalização é examinada por meio da organização das informações do QRQC na aplicação. A análise considera os campos, os vínculos e as operações verificáveis na versão estudada e sua correspondência com as etapas do processo. Seu alcance está delimitado à aplicação e às evidências disponíveis.
 
-A Transformação Digital (TD) possui um escopo mais amplo, pois envolve alterações nos processos, na estrutura organizacional e nas formas de gestão a partir do uso de tecnologias digitais \cite{murici2022}. Nesse sentido, a digitalização de processos industriais pode ser entendida como uma aplicação prática da TD no chão de fábrica, sobretudo quando orientada à melhoria da eficiência operacional, da qualidade e da tomada de decisão \cite{sanchis2020,ribeiro2026}.
-
-\section{Indústria 4.0 e dados no ambiente de manufatura}
-
-A Indústria 4.0 caracteriza-se pela integração de tecnologias digitais aos processos produtivos, possibilitando maior conexão entre máquinas, sistemas, pessoas e dispositivos. Nesse cenário, os dados assumem papel estratégico, pois apoiam o acompanhamento das operações, a análise de desempenho e a tomada de decisão, contribuindo para maior controle dos processos industriais \cite{sanchis2020,ribeiro2026}.
-
-No contexto fabril, esses dados podem surgir de registros de produção, apontamentos operacionais, inspeções de qualidade, tempos de execução, ocorrências de falhas e informações coletadas por equipamentos conectados. Como observa \citeonline{rogers2016}, os dados podem ser gerados nas atividades internas da organização, como manufatura e operações, e utilizados em avaliações, previsões e decisões. Além disso, \citeonline{sanchis2020} associam o ambiente manufatureiro conectado à comunicação entre pessoas, aplicações e dispositivos de Internet das Coisas, o que amplia a disponibilidade e o uso dessas informações no processo produtivo.
-
-A Transformação Digital 4.0, portanto, não depende apenas da adoção de ferramentas tecnológicas, mas também de condições organizacionais que sustentem o uso dos dados. \citeonline{leite2024} destacam dimensões como cultura digital, gestão da informação, infraestrutura tecnológica, operações estruturadas e desenvolvimento de competências digitais. Conforme a Figura~\ref{fig:dimensoes-td40}, esses elementos ajudam a visualizar como a digitalização industrial articula tecnologia, capacidade organizacional e uso das informações geradas no chão de fábrica.
+Ao sistematizarem as bases da Transformação Digital 4.0, \citeonline[p.~9--12]{leite2024} agrupam nove dimensões em três direcionadores: \textit{mindset} digital, tecnologias digitais e capacidades digitais. O primeiro direcionador reúne fatores estratégicos e informacionais; o segundo abrange operações e infraestrutura; o terceiro inclui competências, ofertas, governança e recursos financeiros. A Figura~\ref{fig:dimensoes-td40} sintetiza o modelo.
 
 \begin{figure}[htb]
     \centering
-    \caption{Dimensões base para a Transformação Digital 4.0}
-    \includegraphics[width=0.85\textwidth]{Figuras/direcionadores_td.jpg}
+    \caption{Direcionadores e dimensões da Transformação Digital 4.0}
     \label{fig:dimensoes-td40}
-    
-    \vspace{0.2cm}
-    \begin{flushleft}
-    \footnotesize Fonte: Elaborada pelo autor, com base em \citeonline{leite2024}.
-    \end{flushleft}
+    \resizebox{\textwidth}{!}{%
+    \begin{tikzpicture}[
+        >=Latex,
+        cabecalho/.style={draw, rounded corners=7pt, fill=gray!30,
+            minimum width=5.0cm, minimum height=1.05cm,
+            align=center, font=\small\bfseries},
+        titulo/.style={text width=4.2cm, align=center,
+            font=\small\bfseries},
+        item/.style={draw, rounded corners=5pt, fill=white,
+            text width=4.2cm, minimum height=0.9cm,
+            align=center, font=\small, inner xsep=5pt, inner ysep=6pt},
+        grupo/.style={draw, rounded corners=8pt, fill=gray!10,
+            inner xsep=7pt, inner ysep=8pt},
+        seta/.style={->, thick, rounded corners=2pt}
+    ]
+        \node[cabecalho] (direcionadores)
+            {Direcionadores para a TD};
+
+        % Os títulos são alinhados horizontalmente e os itens são posicionados
+        % uns abaixo dos outros. Assim, a altura de cada caixa se ajusta ao texto
+        % sem provocar sobreposição.
+        \node[titulo, below=16mm of direcionadores] (titulo-td)
+            {Tecnologias digitais};
+        \node[titulo, left=7mm of titulo-td] (titulo-md)
+            {\textit{Mindset} digital};
+        \node[titulo, right=7mm of titulo-td] (titulo-cd)
+            {Capacidades digitais};
+
+        \node[item, below=4mm of titulo-md] (md1)
+            {Estratégia e cultura\\organizacionais};
+        \node[item, below=4mm of md1] (md2)
+            {Relacionamento};
+        \node[item, below=4mm of md2] (md3)
+            {Gestão de dados e da informação};
+
+        \node[item, below=4mm of titulo-td] (td1)
+            {Operações\\(estrutura, processos\\e procedimentos\\organizacionais)};
+        \node[item, below=4mm of td1] (td2)
+            {Infraestrutura\\(recursos tecnológicos\\disponíveis de\\\textit{hardware} e \textit{software})};
+
+        \node[item, below=4mm of titulo-cd] (cd1)
+            {Desenvolvimento de\\competências\\(técnicas e\\comportamentais)};
+        \node[item, below=4mm of cd1] (cd2)
+            {Produtos e serviços};
+        \node[item, below=4mm of cd2] (cd3)
+            {Governança};
+        \node[item, below=4mm of cd3] (cd4)
+            {Recursos financeiros};
+
+        \begin{scope}[on background layer]
+            \node[grupo, fit=(titulo-md)(md1)(md2)(md3)] (grupo-md) {};
+            \node[grupo, fit=(titulo-td)(td1)(td2)] (grupo-td) {};
+            \node[grupo, fit=(titulo-cd)(cd1)(cd2)(cd3)(cd4)] (grupo-cd) {};
+        \end{scope}
+
+        \coordinate[below=7mm of direcionadores] (ramo);
+        \draw[thick] (direcionadores.south) -- (ramo);
+        \draw[seta] (ramo) -| (grupo-md.north);
+        \draw[seta] (ramo) -- (grupo-td.north);
+        \draw[seta] (ramo) -| (grupo-cd.north);
+    \end{tikzpicture}%
+    }
+    \legend{Fonte: adaptado de Leite \textit{et al.} (2024, p.~9).}
 \end{figure}
 
-\section{Ferramentas low-code aplicadas à indústria}
+Na figura, o termo \textit{mindset} foi mantido conforme o modelo original, no sentido de mentalidade digital. O modelo ajuda a situar a aplicação na dimensão de gestão de dados e informações e na organização de uma rotina operacional. As demais dimensões não são avaliadas, por falta de evidências específicas, e o modelo permite situar o alcance da aplicação examinada. A existência da aplicação, por si só, não permite concluir que houve transformação digital da organização como um todo.
 
-As ferramentas \textit{low-code} podem ser compreendidas como plataformas de desenvolvimento que permitem a criação de aplicações digitais com menor dependência de codificação manual. Segundo \citeonline{sanchis2020}, essas plataformas utilizam interfaces visuais e componentes previamente estruturados, favorecendo o desenvolvimento rápido de aplicações. De forma complementar, \citeonline{alves2022} destacam que essa abordagem se apoia em abstrações de alto nível, diagramas visuais e linguagens declarativas, possibilitando menores tempos e custos quando comparada aos modelos tradicionais de desenvolvimento.
 
-Na indústria, essa abordagem torna-se relevante por permitir que soluções digitais sejam desenvolvidas de forma mais flexível e próxima das demandas operacionais. Aplicações como formulários digitais, fluxos de aprovação, painéis de acompanhamento e integrações entre etapas produtivas podem ser construídas com maior agilidade. Com isso, o \textit{low-code} contribui para adaptar as soluções às rotinas do chão de fábrica e aos requisitos dos usuários envolvidos na operação \cite{sanchis2020,alves2022}.
+\section{Resposta rápida para o controle da qualidade (QRQC)}
 
-Outro aspecto importante é a aproximação entre as áreas de negócio, processos e Tecnologia da Informação (TI). \citeonline{alves2022} apontam que o \textit{low-code} favorece a participação de profissionais que conhecem diretamente os procedimentos, desde a concepção até a validação das aplicações. Essa participação tende a gerar soluções mais aderentes à rotina operacional, especialmente em ambientes industriais nos quais o conhecimento prático do processo é essencial para definir fluxos, requisitos e informações necessárias.
+A Resposta Rápida para o Controle da Qualidade (QRQC), referida nos estudos consultados como \textit{Quick Response to Quality Control}, é uma metodologia de gestão à vista voltada à organização da resposta a desvios da qualidade (\citeauthor{rocha2012}, \citeyear{rocha2012}, p.~44--47; \citeauthor{moreira2023}, \citeyear{moreira2023}, p.~221--223).
 
-Ao analisar plataformas \textit{low-code} de destaque, \citeonline{alves2022} comparam seus principais pontos fortes e limitações. Essa análise é relevante para este trabalho porque mostra que a escolha de uma plataforma não deve considerar apenas a rapidez de desenvolvimento, mas também aspectos como integração com sistemas existentes, colaboração entre usuários, gestão de fluxos, escalabilidade, manutenção e suporte a testes. O Quadro~\ref{quad:comparacao-lowcode} apresenta uma adaptação dessa comparação, relacionando características importantes para aplicações industriais.
+Na sistematização de \citeonline[p.~44--47]{rocha2012}, o 5W2H apoia as etapas iniciais de definição e contenção; o Diagrama de Ishikawa e os 5 Porquês são empregados na investigação das causas; e o acompanhamento antecede o registro final dos resultados. Ao discutirem o caso, os próprios autores questionam a denominação de Pareto atribuída ao gráfico de monitoramento, por considerarem que sua apresentação se aproxima de um histograma \cite[p.~53]{rocha2012}. Portanto, aquele uso não é adotado como requisito geral do QRQC nem como exigência de um gráfico específico na aplicação.
+
+A organização em oito disciplinas é retomada por \citeonline[p.~221--222]{moreira2023}: definição do problema; avaliação do risco para outros produtos; contenção; análise da causa de não detecção; análise da causa de ocorrência; ações corretivas; acompanhamento; e lições aprendidas. O autor ressalta, ainda, que a aplicação depende da participação dos colaboradores e do comprometimento da gestão \cite[p.~221]{moreira2023}.
+
+Essa sequência constitui a referência de análise adotada neste estudo. Nela, a contenção corresponde à resposta imediata para limitar a propagação do desvio, enquanto a ação corretiva se relaciona ao tratamento das causas identificadas. A análise da causa de ocorrência procura explicar por que o problema foi produzido; a análise da causa de não detecção procura explicar por que os controles anteriores não o identificaram. A distinção entre essas perguntas orienta o conteúdo esperado dos registros \cite[p.~221--222]{moreira2023}.
+
+As ferramentas citadas organizam perguntas e relações de causa: o 5W2H estrutura a descrição e o planejamento; o Ishikawa reúne possíveis causas; e os 5 Porquês aprofundam a investigação. Para a análise digital, interessa verificar se as informações e seus vínculos podem ser representados e recuperados, mesmo quando a interface não reproduz a aparência de um formulário ou diagrama em papel \cite[p.~44--47]{rocha2012}.
+
+O acompanhamento reúne o andamento das ações e a verificação de seus resultados. Neste estudo, uma situação marcada como concluída será tratada como um estado do registro; a existência de informação sobre a eficácia será examinada separadamente. Testes fictícios podem confirmar o registro e a recuperação dessa informação, mas não demonstram a eficácia de uma ação no processo industrial. Assim, o fluxo informacional do QRQC orienta a verificação dos vínculos entre problema, causas, ações e acompanhamento.
+
+\section{Dados no ambiente de manufatura}
+
+Na manufatura, registros de produção, inspeções, falhas e planos de ação fazem parte do fluxo de informações de uma rotina. Esses registros, quando digitais, podem ser usados tanto para arquivar ocorrências quanto para apoiar a gestão das operações. \citeonline[p.~94--95]{rogers2016} observa que dados produzidos por processos internos podem apoiar o gerenciamento e a otimização das operações, enquanto dados operacionais podem subsidiar modelos estatísticos e o planejamento de recursos. Assim, interessa examinar onde a informação é armazenada, como é organizada e de que forma pode ser recuperada durante o processo.
+
+Coletar mais informações, por si só, não assegura seu aproveitamento. A qualidade dos dados envolve sua adequação à tarefa, sua representação e suas condições de acesso, além da precisão \cite{wangstrong1996}. Assim, os dados precisam representar aspectos relevantes do processo, seguir critérios comuns de preenchimento e estar disponíveis quando forem necessários. No QRQC, essa perspectiva orienta a avaliação da completude e da clareza dos registros: a presença de um campo preenchido não assegura que seu conteúdo seja suficiente para compreender o problema, a causa ou a ação proposta.
+
+\section{Desenvolvimento tradicional, \textit{low-code} e \textit{no-code}}
+
+No desenvolvimento tradicional, também denominado \textit{pro-code}, a equipe implementa e integra a solução por programação textual, selecionando linguagens, bibliotecas e ferramentas. A equipe tem maior controle sobre as decisões técnicas e assume a responsabilidade pela arquitetura, pela manutenção e pelas demais etapas do ciclo de vida da aplicação \cite[p.~737]{bockfrank2021}.
+
+No \textit{low-code}, modelos visuais, componentes reutilizáveis e recursos declarativos reduzem parte da codificação manual \cite[p.~171--173]{sahay2020}; algumas plataformas também integram modelagem, desenvolvimento e implantação \cite[p.~735--737]{bockfrank2021}. Ainda assim, as extensões, as integrações e a manutenção exigem trabalho de engenharia (\citeauthor{sanchis2020}, \citeyear{sanchis2020}, p.~3--4; \citeauthor{bockfrank2021}, \citeyear{bockfrank2021}, p.~737--738).
+
+O rótulo \textit{no-code} costuma designar ambientes nos quais a construção ocorre principalmente pela seleção e pela configuração visual de componentes, tendo como público inclusive pessoas que não programam. A revisão de \citeonline{abendroth2026} discute diferenças de definição e a continuidade entre \textit{low-code} e \textit{no-code}. O grau de abstração oferecido ao usuário e a possibilidade de incluir extensões programadas ajudam a caracterizar as plataformas, sem que seus rótulos sejam suficientes para determinar a adequação a um projeto.
+
+O Quadro~\ref{quad:abordagens-desenvolvimento} resume as características dessas três abordagens. A escolha entre as abordagens depende dos requisitos, das competências da equipe, da infraestrutura, dos riscos e do ciclo de vida previsto.
 
 \begin{quadro}[htb]
-\centering
-\caption{Comparação entre plataformas \textit{low-code}}
-\label{quad:comparacao-lowcode}
-\footnotesize
-\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{2.8cm}
-                                >{\raggedright\arraybackslash}X
-                                >{\raggedright\arraybackslash}X}
-\hline
-\textbf{Plataforma} & \textbf{Pontos fortes} & \textbf{Pontos de atenção} \\
-\hline
-
-Power Apps &
-Integração com serviços em nuvem, uso de APIs personalizadas, suporte à política de dados, colaboração entre usuários e automação de fluxos de trabalho. &
-Licenciamento complexo, menor suporte para desenvolvedores profissionais e restrições para compartilhamento externo. \\
-
-\hline
-
-OutSystems &
-Boa experiência de usuário, escalabilidade, análise de desempenho e interoperabilidade. &
-Poucos conectores externos, baixo suporte a estruturas de testes e ausência de desenvolvimento \textit{off-line}. \\
-
-\hline
-
-Mendix &
-Suporte móvel \textit{off-line}, gerenciamento ágil de projetos, colaboração entre usuários e variedade de opções de implantação. &
-Baixa integração com sistemas ERP, possíveis inconsistências em novas versões e custo elevado. \\
-
-\hline
-
-Salesforce Lightning &
-Escalabilidade, recursos de teste, ferramentas associadas à inteligência artificial, gerenciamento amigável e serviço robusto. &
-Possíveis instabilidades em integrações, maior necessidade de treinamento e menor nível de automação. \\
-
-\hline
-
-Appian &
-Histórico agregado de processos, processamento de eventos complexos, colaboração simultânea, interfaces intuitivas e implantação rápida. &
-Personalização limitada, depuração mais demorada e baixo suporte para testes. \\
-
-\hline
-\end{tabularx}
-
-\vspace{0.2cm}
-\begin{flushleft}
-\footnotesize Fonte: Adaptado de \citeonline[p.~7--8]{alves2022}.
-\end{flushleft}
+    \centering
+    \caption{Síntese das abordagens de desenvolvimento de aplicações}
+    \label{quad:abordagens-desenvolvimento}
+    \footnotesize
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.6cm}
+                                    |>{\raggedright\arraybackslash}X
+                                    |>{\raggedright\arraybackslash}X|}
+        \hline
+        \textbf{Abordagem} & \textbf{Forma predominante de construção} & \textbf{Implicações principais} \\
+        \hline
+        Desenvolvimento tradicional & Código textual, bibliotecas, estruturas de desenvolvimento e ferramentas selecionadas e integradas pela equipe. & Maior liberdade técnica, acompanhada de responsabilidade direta sobre arquitetura, integração, testes, implantação e manutenção. \\
+        \hline
+        \textit{Low-code} & Modelos visuais, componentes reutilizáveis e configuração declarativa, com possibilidade de extensões por código. & Reduz tarefas rotineiras e aproxima a solução do domínio do negócio, mas exige avaliação de limites, governança e dependência da plataforma. \\
+        \hline
+        \textit{No-code} & Configuração visual e componentes predefinidos, com pouca ou nenhuma programação textual. & Reduz a barreira de entrada em aplicações delimitadas; a margem para personalização varia conforme os recursos e as extensões oferecidos. \\
+        \hline
+    \end{tabularx}
+    \legend{Fonte: elaborado pelo autor (2026), com base em Bock e Frank (2021), Sahay \textit{et al.} (2020) e Abendroth (2026).}
 \end{quadro}
 
-O quadro reforça que as plataformas \textit{low-code} possuem características favoráveis à digitalização de processos industriais, principalmente quando o objetivo é transformar fluxos operacionais em aplicações digitais de uso prático. Para este estudo, destacam-se os recursos de integração, colaboração, automação de fluxos e disponibilização rápida das aplicações. Ao mesmo tempo, \citeonline{sanchis2020} chama atenção para desafios como escalabilidade, fragmentação entre plataformas e adequação a aplicações mais complexas. Assim, a adoção do \textit{low-code} deve ser acompanhada por análise do processo, validação com os usuários, acompanhamento das soluções implementadas e definição de critérios de governança \cite{sanchis2020,alves2022}.
+\section{Plataformas \textit{low-code} no contexto industrial}
 
+No ambiente industrial, recursos de modelagem de dados, interfaces, lógica e integrações podem representar necessidades operacionais específicas \cite[p.~171--173]{sahay2020}. Em projetos compatíveis com as abstrações da plataforma, a redução de tarefas rotineiras pode elevar a produtividade \cite[p.~737--738]{bockfrank2021}. A decisão também deve considerar escalabilidade, fragmentação, flexibilidade, segurança e dependência do fornecedor \cite[p.~3--4]{sanchis2020}, além da criticidade e das exigências de manutenção. Essas condições precisam ser avaliadas em cada projeto para determinar a adequação do \textit{low-code}.
 
+Neste estudo, o interesse está no uso do Mendix para representar os campos, as relações entre informações e as etapas do QRQC em um contexto industrial. A comparação dos tempos de desenvolvimento entre diferentes abordagens está fora do escopo da pesquisa.
 
-\section{Aplicação digitalizada no estudo de caso}
+\section{A plataforma Mendix}
+\label{sec:mendix}
 
-\subsection{\textit{Resposta rápida para o controle da qualidade: 
-conceito, funcionamento e aplicação}}
+O Mendix é uma plataforma \textit{low-code} cujo ambiente de desenvolvimento é o Mendix Studio Pro. A descrição dos recursos apresentada a seguir tem como base sua documentação oficial \cite{mendix2025modeling}.
 
-A Resposta Rápida para o Controle da Qualidade, conhecida pela sigla QRQC, do inglês \textit{Quick Response to Quality Control}, é utilizada para tratar problemas de qualidade de forma estruturada, com foco na reação rápida, na contenção do desvio, na análise da causa e na definição de ações corretivas capazes de evitar a reincidência da falha. Segundo \citeonline{rocha2012}, o QRQC é uma metodologia de gerenciamento à vista que reúne ferramentas da qualidade para apoiar a análise e a identificação de problemas no processo produtivo.
+O \emph{modelo de domínio} representa os dados da aplicação por meio de entidades, atributos e associações \cite{mendix2026domain}, enquanto os \textit{microflows} encadeiam visualmente atividades e decisões \cite{mendix2026microflows}. As páginas organizam os componentes apresentados ao usuário.
 
-A aplicação do QRQC está associada à necessidade de resolver problemas diretamente na fonte, com base em fatos, evidências e participação dos envolvidos no processo. Para \citeonline{rocha2012}, a metodologia utiliza ferramentas como 5W2H, Diagrama de Ishikawa, 5 Porquês e Diagrama de Pareto, aplicadas de forma sequencial para auxiliar na contenção do problema e na investigação das causas. Dessa forma, o QRQC contribui para organizar a tratativa das não conformidades e tornar mais clara a relação entre o problema identificado, suas causas e as ações necessárias.
+Os recursos de páginas, modelo de domínio e \textit{microflows} oferecem elementos para representar interfaces, dados e regras. No caso examinado, a forma como esses recursos apoiam o QRQC será descrita a partir dos artefatos acessíveis e das operações verificadas, em etapa posterior da pesquisa.
 
-O funcionamento da metodologia pode ser compreendido como um fluxo de resposta rápida que começa pela identificação do problema e pela adoção de ações imediatas de contenção. Em seguida, são analisados os riscos de ocorrência em outros produtos ou processos, investigadas as causas da falha e da não detecção, definidas ações corretivas e verificada a efetividade das soluções adotadas. \citeonline{moreira2023} relaciona essa lógica às etapas da metodologia 8D, envolvendo definição do problema, análise de risco, contenção, identificação das causas, ações corretivas, verificação e registro das lições aprendidas.
+\section{Estudos de caso correlatos}
 
-No ambiente industrial, a aplicação do QRQC depende da integração entre pessoas, registros e informações do processo. A participação dos colaboradores que atuam diretamente na operação é importante porque permite que a análise considere o local real da ocorrência, as condições do processo e as evidências disponíveis. Nesse sentido, \citeonline{moreira2023} destaca que o comprometimento dos envolvidos e da gestão é essencial para que a metodologia contribua para a melhoria contínua e para o tratamento adequado dos problemas de qualidade.
+\citeonline{meira2025} estudou a digitalização de registros de manutenção autônoma em uma indústria, com aplicação desenvolvida em Power Apps. A autora utilizou entrevistas, observação participante e comparação entre registros físicos e digitais. O trabalho mostra uma forma de organizar um estudo sobre a passagem do papel para uma aplicação, mas seus procedimentos e conclusões dependem de evidências do processo anterior, indisponíveis neste caso.
 
-No contexto deste estudo, o QRQC é as aplicação digitalizada porque envolve informações que precisam ser registradas, acompanhadas e atualizadas ao longo da tratativa da não conformidade. Entre essas informações, podem estar a descrição do problema, a área responsável, as ações de contenção, os prazos, os responsáveis, as evidências, as causas identificadas e a verificação da eficácia das ações. Assim, a digitalização desse processo pode apoiar a rastreabilidade das ocorrências, a padronização dos registros e o acompanhamento das ações em andamento, aproximando a metodologia de resposta rápida das práticas de gestão da informação no ambiente de manufatura.
+\citeonline{furtado2025} descreveu o desenvolvimento de uma aplicação \textit{low-code} para o controle de pragas em uma indústria de alimentos e realizou testes simulados sem aplicação em ambiente fabril. Esse estudo oferece um exemplo de apresentação da estrutura e das funções de uma solução quando a avaliação operacional não foi realizada.
 
+Esses trabalhos orientam a descrição estruturada da solução, a explicitação das fontes de evidência e o uso de cenários simulados. No recorte aqui adotado, a inspeção do projeto Mendix e os testes previstos destinam-se a verificar a representação das informações do QRQC. A avaliação de efeitos no processo produtivo depende de outras evidências e não integra os objetivos da pesquisa.
 
 \section{Barreiras e cuidados na digitalização de processos industriais}
 
-A digitalização de processos industriais pode contribuir para a organização das informações, o acompanhamento das atividades e a tomada de decisão. No entanto, sua implantação exige cuidados que vão além da escolha da ferramenta tecnológica. \citeonline{murici2022} destaca que a Transformação Digital envolve mudanças em processos, estrutura, cultura, competências e formas de gestão, o que evidencia a necessidade de considerar também os fatores humanos e organizacionais.
+A implantação de uma aplicação pode alterar atividades, responsabilidades e formas de acesso à informação. Entre as barreiras organizacionais identificadas por \citeonline[p.~154]{murici2022}, destacam-se resistência à mudança, desconhecimento dos profissionais, falta de recursos financeiros, comunicação ineficaz e infraestrutura tecnológica inexistente ou deficiente. No chão de fábrica, esses fatores podem afetar o preenchimento dos dados, a adesão ao fluxo e a confiabilidade das informações geradas.
 
-Entre as principais barreiras, estão a resistência à mudança, a carência de pessoal qualificado, o despreparo dos usuários e a dificuldade de adaptação a novos fluxos de trabalho \cite{murici2022}. No ambiente de manufatura, esses fatores podem interferir diretamente no uso das aplicações digitais, especialmente quando há substituição de registros manuais por formulários eletrônicos, necessidade de padronização dos dados e acompanhamento das informações em tempo real.
-
-Também devem ser considerados aspectos técnicos e de governança. Embora as plataformas \textit{low-code} favoreçam o desenvolvimento rápido de aplicações, \citeonline{sanchis2020} apontam desafios relacionados à escalabilidade, fragmentação entre plataformas e adequação a aplicações mais complexas. Dessa forma, a digitalização de processos industriais deve ser acompanhada por análise do processo, validação com os usuários, definição de responsabilidades, controle dos dados e manutenção das soluções implementadas \cite{alves2022}.
-
-
-
-
-
-
-% \input{Capitulos/subsecao2} % a ordem é a que aparece no texto
-
-
-
-
-
+A análise também considera responsabilidades, regras de acesso, qualidade dos dados e validações na medida em que possam ser observadas na aplicação. As barreiras organizacionais descritas na literatura ajudam a situar os limites do estudo, mas sua ocorrência no caso não é presumida sem evidência.

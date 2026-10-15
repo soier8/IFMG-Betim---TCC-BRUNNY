@@ -162,7 +162,7 @@
 \newcommand{\orientadorname}{Orientador:}
 \newcommand{\coorientadorname}{Coorientador:}
 \newcommand{\folhadeaprovacaoname}{FOLHA DE APROVA\c{C}\~AO}
-\newcommand{\resumoname}{\large RESUMO} 
+\newcommand{\resumoname}{RESUMO} 
 \newcommand{\listadesiglasname}{\large LISTA DE ABREVIATURAS E SIGLAS}
 \newcommand{\listadesimbolosname}{\large LISTA DE S\'IMBOLOS}
 \newcommand{\fontename}{Fonte}
@@ -173,7 +173,7 @@
   \renewcommand{\bibname}{REFER\^ENCIAS}
   \renewcommand{\indexname}{\'INDICE}
   \renewcommand{\listfigurename}{LISTA DE ILUSTRA\c{C}\~{O}ES}
-  \renewcommand{\listtablename}{\large LISTA DE TABELAS}
+  \renewcommand{\listtablename}{LISTA DE TABELAS}
   %% ajusta nomes usados com a macro \autoref
   \renewcommand{\pageautorefname}{p\'agina}
   \renewcommand{\sectionautorefname}{se{\c c}\~ao}
@@ -195,7 +195,7 @@
   \renewcommand{\orientadorname}{Supervisor:}
   \renewcommand{\coorientadorname}{Co-supervisor:}
   \renewcommand{\folhadeaprovacaoname}{Approval}
-  \renewcommand{\resumoname}{\large ABSTRACT} 
+  \renewcommand{\resumoname}{ABSTRACT} 
   \renewcommand{\listadesiglasname}{List of abbreviations and acronyms}
   \renewcommand{\listadesimbolosname}{List of symbols}
   \renewcommand{\fontename}{Source}

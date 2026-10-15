@@ -270,8 +270,8 @@ FUNCTION {bbl.missing.year}
 FUNCTION {bbl.monography} { "Monografia" }
 FUNCTION {bbl.mthesis} { "Disserta\c{c}\~{a}o" }
 % ALTERADO
-%FUNCTION {bbl.no.address} {"[S.l.]"}
-%FUNCTION {bbl.no.address.no.publisher} {"[S.l.: s.n.]"}
+FUNCTION {bbl.no.address} {"[S.l.]"}
+FUNCTION {bbl.no.address.no.publisher} {"[S.l.: s.n.]"}
 %FUNCTION {bbl.no.publisher} {"[s.n.]"}
 FUNCTION {bbl.no.publisher} {""}
 FUNCTION {bbl.number} { iso.abbreviation {"no."} {"n."} if$ }
@@ -1101,7 +1101,7 @@ FUNCTION {format.year}
    { "campo year vazio ou faltando em " cite$ *
     abnt.missing.year {" (vou colocar [s.d.])" *} 'skip$ if$ warning$
     abnt.missing.year {", " } {""} if$ bbl.missing.year *}
-    {year n.dashify "year" bibinfo.check}
+    {year n.dashify extra.label * "year" bibinfo.check}
 if$
 }
 
@@ -1332,7 +1332,7 @@ FUNCTION {calc.extended.label}
      {org-short empty$ not
       {org-short * "}{" * org-short "u" change.case$ *}
       {organization empty$ not
-       {organization * "}{" * organization "u" change.case$ *}
+       {organization * "}{" * organization *}
         {title empty$ not
          {title format.title.for.label *}
          {"nada}{NADA" *}
@@ -2036,7 +2036,7 @@ FUNCTION {set.default.abnt.variables}
   "$Revision: v-1.9.6 $" extract.cvs.key 'abnt.bst.revision :=
   #0 'abnt.and.type     :=     % #0 "e"; #1 "&"
   "\emph" 'abnt.emphasize :=
-  #0 'abnt.cite.style :=       %default norm version for NBR10520
+  #1 'abnt.cite.style :=       % NBR 10520:2023: Author, year
                                %#0 \cite=(AUTHOR, YEAR)
 			       %#1 \cite=(Author, YEAR)
   #0 'abnt.experimental :=

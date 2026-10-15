@@ -34,19 +34,18 @@
 	brazil				% Idioma principal 
 	]{packages/abntex2-ifmg}
 	
-\include{packages/packages}  % Estrutura do Texto e Pacotes Principais
+\input{packages/packages}  % Estrutura do texto e pacotes principais
 
 % -- Informações para Capa e Folha de Rosto a serem editadas
 
-\titulo{Processo de Digitalização Industrial Utilizando Ferramenta Low Code. Um estudo de caso} 
-% caso o trabalho não tenha subtítulo comentar linha abaixo e retirar dois pontos do título do trabalho
-% \subtitulo{Subtítulo}
+\titulo{Aplicação Low-Code em Mendix para o Registro e o Acompanhamento do QRQC:}
+\subtitulo{um estudo de caso em ambiente industrial}
 
-\autor{Brunny Augusto Gumieri Silva} \autorcite{SOBRENOME, Nome}
+\autor{Brunny Augusto Gumieri Silva} \autorcite{SILVA, Brunny Augusto Gumieri}
 \local{Betim}
 \data{\rule{1cm}{0.15mm} de \rule{1cm}{0.15mm} de \rule{1cm}{0.15mm}} 
 \dia{\rule{1cm}{0.15mm}} \mes{\rule{1cm}{0.15mm}} 
-\ano{2025} %deixar sem preencher antes do TCC
+\ano{2026}
 \orientador{Prof. Me. Virgil Del Duca Almeida}  % Nome do orientador 
 \ttorientador{IFMG} % Instituição do orientador
 % \coorientador{Prof. Me. XXXXXXXXX}   % Nome do coorientador
@@ -59,34 +58,41 @@
 \grau{Bacharel em Engenharia de Controle e Automação}
 
 %------Nomes dos examinadores.  
-\examinadorum{Prof. Dr. XXXXXXXXX} \ttexaminadorum{Instituição}
-\examinadordois{Eng. XXXXXXXXX} \ttexaminadordois{Instituição}
+% Preencher os examinadores quando a banca for definida.
+% \examinadorum{Prof. Dr. Nome do examinador} \ttexaminadorum{Instituição}
+% \examinadordois{Prof. Dr. Nome do examinador} \ttexaminadordois{Instituição}
 %\examinadortres{Prof. Dr. Membro da Banca  3} \ttexaminadortres{Universidade Federal de ... - UFXX}
 %\examinadorquatro{Prof. Dr. Membro da Banca  4} \ttexaminadorquatro{Universidade Federal de ... - UFXX}
 
 % ------------------------------------------------------
-\makeindex   
+% Índice remissivo não utilizado.   
 
 \begin{document} % Início do documento
+
+\hypersetup{hidelinks} % remove molduras coloridas dos hiperlinks no PDF
 
 \frenchspacing  % Retira espaço obsoleto entre as frases.
 
 % ----------------------------------------------------------
 % -- Elementos Pré-Textuais: -------------------------------
-\pagenumbering{roman}
-
+\hypersetup{pageanchor=false}
 \imprimircapa  % Capa
+\hypersetup{pageanchor=true}
+\pagenumbering{arabic}
+\setcounter{page}{1} % A contagem começa na folha de rosto
 \imprimirfolhaderosto % Folha de rosto
 
-\include{PreTextuais/FichaCatalografica}
-\include{PreTextuais/FichaAprovacao} 
+% Inserir a ficha catalográfica e a folha de aprovação oficiais na versão final.
+% \include{PreTextuais/FichaCatalografica}
+% \include{PreTextuais/FichaAprovacao}
 
-\include{PreTextuais/Dedicatoria}
-\include{PreTextuais/Agradecimento}
-\include{PreTextuais/Epigrafe}
-\include{PreTextuais/Resumo}
+% Elementos opcionais: habilitar somente depois de substituir os textos-modelo.
+% \include{PreTextuais/Dedicatoria}
+% \include{PreTextuais/Agradecimento}
+% \include{PreTextuais/Epigrafe}
+\input{PreTextuais/Resumo}
 
-\renewcommand{\listfigurename}{\large LISTA DE ILUSTRA\c{C}\~{O}ES}
+\renewcommand{\listfigurename}{LISTA DE ILUSTRA\c{C}\~{O}ES}
 \pdfbookmark[0]{\listfigurename}{lof}
 \listoffigures*   % Cria a Lista de Figuras
 \cleardoublepage
@@ -98,17 +104,19 @@
 \cleardoublepage
 % ---
 
-\pdfbookmark[0]{\listtablename}{lot}
-\listoftables*  % Cria a lista de Tabelas
-\cleardoublepage
+% Habilitar quando houver tabelas no trabalho.
+% \pdfbookmark[0]{\listtablename}{lot}
+% \listoftables*
+% \cleardoublepage
 
 %\renewcommand{\listalgorithmcfname}{Lista de algoritmos}
 %\pdfbookmark[0]{\listalgorithmcfname}{lof}
 %\listofalgorithmes   % Cria a lista de Tabelas
 %\cleardoublepage
 
-\include{PreTextuais/ListaSiglas}
-\include{PreTextuais/ListaSimbolos}
+\input{PreTextuais/ListaSiglas}
+% Habilitar se o trabalho vier a utilizar símbolos que exijam lista própria.
+% \include{PreTextuais/ListaSimbolos}
 
 
 \pdfbookmark[0]{\contentsname}{toc}
@@ -121,26 +129,27 @@
 
 % ----------------------------------------------------------
 % -- Capítulos do Trabalho: --------------------------------
-\pagenumbering{arabic} 
-\setcounter{page}{14} % Inserir aqui o número de páginas antes da introdução menos a capa
 \textual 
 
 %%%%%%%%%%%% ORDEM DOS ARQUIVOS %%%%%%%%%%%%%%%%%%%
 
-\include{Capitulos/Cap1-Introducao}
-\include{Capitulos/Cap2-FundamentacaoTeorica}
-\include{Capitulos/Cap3-Metodologia}
-\include{Capitulos/Cap4-Resultados}
-\include{Capitulos/Cap5-Conclusao}
+\input{Capitulos/Cap1-Introducao}
+\input{Capitulos/Cap2-FundamentacaoTeorica}
+\input{Capitulos/Cap3-Metodologia}
+\input{Capitulos/Cap4-Resultados}
+\input{Capitulos/Cap5-Conclusao}
 
 
 
 % ----------------------------------------------------------
 % -- Elementos Pós-Textuais: -------------------------------
 \postextual  
+\citeoption{abnt-opcoes}
+\bibliographystyle{packages/abntex2-alf}
 \bibliography{bibliografia} % Referências bibliográficas
-\include{PosTextuais/Apendice}
-\include{PosTextuais/Anexo}
+% Habilitar apenas apêndices e anexos efetivamente utilizados.
+% \include{PosTextuais/Apendice}
+% \include{PosTextuais/Anexo}
 %\includepdf[pages={1,3-5}]{PosTextuais/includepdfpages.pdf}
 %\phantompart  \printindex  % Indice Remissivo
 % ----------------------------------------------------------

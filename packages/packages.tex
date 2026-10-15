@@ -1,88 +1,90 @@
 %------------------------------------------------------------
 %------------    Estrutura do texto   -----------------------         
 
-% Pacotes Básicos:
-%\usepackage{lmodern}			    % Usa a fonte Latin Modern			
-\usepackage{pslatex}                % Usa a fonte Times New Roman
-\usepackage[T1]{fontenc}		  % Selecao de codigos de fonte.
-\usepackage[utf8]{inputenc}		% Codificacao do documento (conversão automática dos acentos)
+% Pacotes básicos:
+% \usepackage[T1]{fontenc}		  % Selecao de codigos de fonte.
+% \usepackage[utf8]{inputenc}		% Codificacao do documento (conversão automática dos acentos)
 \usepackage{lastpage}			    % Usado pela Ficha catalográfica
 \usepackage{indentfirst}		  % Indenta o primeiro parágrafo de cada seção.
 \usepackage[table]{xcolor}
-\usepackage{color}				    % Controle das cores
 \usepackage{graphicx}			    % Inclusão de gráficos
 \usepackage{microtype} 		  	% para melhorias de justificação
 
-\usepackage{tablefootnote} % para colocar footnotes em tabelas e figuras
-
 % Pacotes Extras:
 \usepackage[final]{pdfpages}
-\usepackage{amsmath,amsthm}   %Símbolos Matemáticos
-\usepackage{indentfirst} % Indenta primeiro parágrafo 
-\usepackage[portuguese, ruled, linesnumbered,commentsnumbered, algo2e, vlined, lined, boxed, algochapter]{algorithm2e} % Algoritmos 
+\usepackage{amsmath,amssymb,amsthm}
 \usepackage{hyperref}
-\usepackage[brazilian,hyperpageref]{backref}	 % Paginas com as citações na bibliograficas
 \usepackage{tabularx}
 \usepackage{array}
+\usepackage{placeins}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,backgrounds,fit,positioning}
 
 
 %\usepackage[num]{abntex2cite}	% Citações padrão ABNT númerico
-\usepackage[alf,abnt-emphasize=bf,abnt-full-initials=no,abnt-etal-list=5,abnt-etal-text=emph,abnt-repeated-author-omit=yes]{abntex2cite}
+\usepackage[alf,abnt-emphasize=bf,abnt-full-initials=yes,abnt-etal-list=5,abnt-etal-text=emph,abnt-repeated-author-omit=no]{abntex2cite}
+% Apresenta URLs sem os delimitadores angulares do estilo local.
+\renewcommand{\UrlLeft}{}
+\renewcommand{\UrlRight}{}
 %\usepackage[alf,abnt-emphasize=bf,abnt-etal-list=0,abnt-etal-text=emph]{abntex2cite}
 
 % se desejar justificar as referências (pela abnt é alinhado a esquerda)
 % \usepackage[alf,abnt-emphasize=bf,bibjustif]{abntex2cite}
 
-\usepackage{float} % para ajustar a posição das imagens
-
-\usepackage{tikzsymbols} %para caracteres emoji
-\usepackage{stackengine}
-\usepackage{scalerel}
-
-\newcommand\dangersign[1][2ex]{%
-  \renewcommand\stacktype{L}%
-  \scaleto{\stackon[1.3pt]{\color{red}$\triangle$}{\tiny\bfseries !}}{#1}%
-}
-
 \usepackage{etoolbox}
-%\usepackage[num]{abntex2cite}  % Citações numéricas
-
-\usepackage{lipsum}
-
-%para usar os algoritmos e matematica
-\newcommand{\var}{\texttt}
-
-\usepackage{amssymb}
-\usepackage{amsmath}
 
 
 
 % Defininfo Cores:
 \definecolor{blue}{RGB}{25,25,112}
 \definecolor{midgray}{gray}{.7}
+\definecolor{placeholdergray}{RGB}{90,90,90}
 
-\makeatletter % informações do PDF
-\hypersetup{ % pagebackref=true,
-	pdftitle={\@title}, 
-	pdfauthor={\@author},
-    pdfsubject={\imprimirpreambulo},
-	pdfcreator={LaTeX with abnTeX2},
-	pdfkeywords={abnt}{latex}{abntex}{abntex2}{trabalho acadêmico}, 
-	colorlinks=true,     % false: boxed links; true: colored links
-    linkcolor=black,          	% color of internal links
-    citecolor=black,        		% color of links to bibliography
-    filecolor=magenta,      	% color of file links
-    urlcolor=black,
-	bookmarksdepth=4 }
-\makeatother
+% Figura de estudo de caso com substituição automática.
+% Ao adicionar o arquivo indicado na pasta Figuras, o quadro de orientação
+% desaparece e a imagem passa a ser exibida com a mesma legenda e rótulo.
+% Uso: \figuraCaso[largura]{arquivo}{legenda}{rotulo}{orientacao}{fonte}
+\newcommand{\figuraCaso}[6][0.92\textwidth]{%
+    \begin{figure}[htb]
+        \centering
+        \caption{#3}
+        \label{#4}
+        \IfFileExists{Figuras/#2}{%
+            \includegraphics[width=#1,height=0.72\textheight,keepaspectratio]{Figuras/#2}%
+        }{%
+            \setlength{\fboxsep}{10pt}%
+            \fcolorbox{placeholdergray}{gray!6}{%
+                \begin{minipage}[c][5.2cm][c]{0.84\textwidth}
+                    \centering
+                    \color{placeholdergray}
+                    \textbf{ESPAÇO RESERVADO PARA IMAGEM}\\[0.5em]
+                    \texttt{Figuras/#2}\\[0.8em]
+                    \small #5
+                \end{minipage}%
+            }%
+        }
+        \legend{Fonte: #6}
+    \end{figure}
+    \FloatBarrier
+}
+
+\AtBeginDocument{%
+\hypersetup{
+    pdftitle={\imprimirtitulo},
+    pdfauthor={\imprimirautor},
+    pdfsubject={Digitalização do fluxo informacional do QRQC com a plataforma low-code Mendix},
+    pdfcreator={LaTeX with abnTeX2},
+    pdfkeywords={digitalização de processos; QRQC; low-code; Mendix; gestão da qualidade},
+    bookmarksdepth=4
+}}
  
 
 % -------------------------------------------- 
 % Espaçamentos entre linhas e parágrafos 
-\setlength{\parindent}{1.3cm} % O tamanho do parágrafo
+\setlength{\parindent}{2cm} % Recuo da primeira linha conforme o Manual do IFMG
 
 % Controle do espaçamento entre um parágrafo e outro:
-\setlength{\parskip}{0.2cm}  % tente também \onelineskip
+\setlength{\parskip}{0pt} % Sem espaço adicional entre parágrafos
 
 % Definição de ambientes matemáticos em português 
 \newtheorem{teorema}{Teorema}[chapter]
@@ -95,8 +97,22 @@
 \newtheorem{observacao}{Observação}[chapter]
 
 % Novos Comandos
-\usepackage{tgtermes}
+% Compilar com XeLaTeX (ou Tectonic). As fontes proprietárias não são distribuídas.
+\usepackage{fontspec}
+\IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}}{%
+  \setmainfont{TeX Gyre Termes}
+  \PackageWarningNoLine{tcc}{Times New Roman indisponivel. Usando TeX Gyre Termes; conferir a fonte antes do deposito}
+}
+\renewcommand{\ABNTEXchapterfontsize}{\normalsize}
+\renewcommand{\ABNTEXsectionfontsize}{\normalsize}
+\renewcommand{\ABNTEXsubsectionfontsize}{\normalsize}
+\renewcommand{\legend}[1]{\par\smallskip{\footnotesize\SingleSpacing\noindent\raggedright #1\par}}
+\captionnamefont{\normalsize}
+\captiontitlefont{\normalsize}
+\captionstyle{\raggedright}
+\setlength{\emergencystretch}{1em}
 \renewcommand{\ABNTEXchapterfont}{\rmfamily\bfseries}
+\renewcommand{\ABNTEXsubsectionfont}{\rmfamily\bfseries\itshape}
 
 % Variáveis adicionais
 \providecommand{\imprimirautorcite}{}
@@ -160,82 +176,47 @@
 \begin{capa}
 %\begin{center}\includegraphics[scale=1]{Figuras/ifmg.png}\end{center}
 \begin{center}{
-             \large \MakeTextUppercase{\imprimirinstituicao} - \MakeTextUppercase{\imprimirinstituto} \\
+             \normalsize \MakeTextUppercase{\imprimirinstituicao} - \MakeTextUppercase{\imprimirinstituto} \\
               %\imprimirdepartamento \\
               \MakeTextUppercase{Bacharelado em \imprimircurso} \\
               \vspace{2cm}
-			  \large {\imprimirautor} 
+			  \normalsize {\imprimirautor} 
 			  }\end{center}
 \vfill
         \begin{center}
-        \MakeTextUppercase{\large \textbf{\imprimirtitulo}}
+        \MakeTextUppercase{\normalsize \textbf{\imprimirtitulo}}
         \MakeTextLowercase{\textbf{\imprimirsubtitulo}}
 				\vspace{2cm}
-				%{\large \imprimirautor} 	
+				%{\normalsize \imprimirautor} 	
 				\vfill
-        {\large{\imprimirlocal \\ \imprimirano }}
+        {\normalsize{\imprimirlocal \\ \imprimirano }}
         \end{center}
 \end{capa}   } % Capa
 
 %----------------------------------------------------
-\renewcommand{\imprimirfolhaderosto}{% folha de rosto
-    \begin{center}
-    {{\MakeTextUppercase \imprimirautor}}  \\
-		\vfill
-		\large {\textbf{\MakeTextUppercase{\imprimirtitulo}}
-        \MakeTextLowercase{\textbf{\imprimirsubtitulo}}}
-    \end{center}
-    \vfill 
-    \begin{flushright} 
-    \parbox{0.6\linewidth}{
-		\imprimirtipotrabalho~ apresentado à banca examinadora do curso de \imprimircurso~ do \imprimirinstituicao~\imprimirinstituto, como parte dos requisitos para obtenção do título de \imprimirgrau. \\
-		\vfill
-		\textbf{\imprimirorientadorRotulo}~\imprimirorientador \\
-		\vfill 
-		\textbf{\imprimircoorientadorRotulo}~\imprimircoorientador}
-   \end{flushright} 
-   
-	 \vfill
-   \begin{center}
-   {\large{\imprimirlocal \\ \imprimirano}}
-   \end{center} }  % folha de rosto
+\renewcommand{\imprimirfolhaderosto}{%
+  \thispagestyle{empty}
+  \begin{center}
+    \MakeTextUppercase{\imprimirautor}\par
+    \vfill
+    {\SingleSpacing\bfseries\MakeTextUppercase{\imprimirtitulo}\space\imprimirsubtitulo\par}
+  \end{center}
+  \vfill
+  \noindent\hspace*{0.5\textwidth}%
+  \begin{minipage}{0.5\textwidth}
+    \SingleSpacing
+    \imprimirtipotrabalho\ apresentado à banca examinadora do curso de \imprimircurso\ do \imprimirinstituicao\ -- \imprimirinstituto, como parte dos requisitos para obtenção do título de \imprimirgrau.\par
+    \vspace{2\baselineskip}
+    \noindent\imprimirorientadorRotulo\ \imprimirorientador\par
+  \end{minipage}
+  \vfill
+  \begin{center}\imprimirlocal\\\imprimirano\end{center}
+  \clearpage
+}
 
 %----------------------------------------------------
 
 
-%================================================================================
-% Pacotes de citações
-%================================================================================
-
-% Configurações do pacote backref
-% Texto padrão antes do número das páginas
-\renewcommand{\backref}{}
-% Define os textos da citação
-\addto\captionsbrazil{% portugues-brasil
-    % Usado sem a opção hyperpageref de backref
-    \renewcommand{\backrefpagesname}{Citado na(s) p{\'a}gina(s):~}
-    \renewcommand*{\backrefalt}[4]{
-    	\ifcase #1 %
-    		Nenhuma cita{\c c}{\~a}o no texto.%
-    	\or
-    		Citado na p{\'a}gina #2.%
-    	\else
-    		Citado #1 vezes nas p{\'a}ginas #2.%
-    	\fi}%
-}
-\addto\captionsenglish{% ingles
-    % Usado sem a opção hyperpageref de backref
-    \renewcommand{\backrefpagesname}{Cited on page(s):~}
-    \renewcommand*{\backrefalt}[4]{
-    	\ifcase #1 %
-    		No citation.%
-    	\or
-    		Cited on page #2.%
-    	\else
-    		Cited #1 times on pages #2.%
-    	\fi}%
-}
-% ---
 \makeatletter
 \newcommand\thefontsize{Fonte tamanho: \f@size pt}
 \makeatother
@@ -252,3 +233,9 @@
 
 
 %--
+
+% Evita linhas isoladas nas quebras de páginas.
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+\renewcommand{\arraystretch}{1.12}
