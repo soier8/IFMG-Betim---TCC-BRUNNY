@@ -147,7 +147,7 @@
 % ---
 % Hifenizacao e caracteres especiais portugues-brasil por padrao
 % ---
-\RequirePackage[brazil]{babel}
+\RequirePackage[brazilian]{babel}
 %
 % Nomes constantes do abnTeX2 em portugues (definicoes padroes)
 \newcommand{\folhaderostoname}{FOLHA DE ROSTO}
@@ -168,7 +168,7 @@
 \newcommand{\fontename}{Fonte}
 \newcommand{\notaname}{Nota}
 %
-\addto\captionsbrazil{% portugues-brasil
+\addto\captionsbrazilian{% portugues-brasil
   %% ajusta nomes padroes do babel
   \renewcommand{\bibname}{REFER\^ENCIAS}
   \renewcommand{\indexname}{\'INDICE}

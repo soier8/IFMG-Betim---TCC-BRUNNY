@@ -97,12 +97,19 @@
 \newtheorem{observacao}{Observação}[chapter]
 
 % Novos Comandos
-% Compilar com XeLaTeX (ou Tectonic). As fontes proprietárias não são distribuídas.
-\usepackage{fontspec}
-\IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}}{%
-  \setmainfont{TeX Gyre Termes}
-  \PackageWarningNoLine{tcc}{Times New Roman indisponivel. Usando TeX Gyre Termes; conferir a fonte antes do deposito}
-}
+% Compila com pdfLaTeX (padrão do Overleaf), XeLaTeX ou LuaLaTeX.
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{tgtermes}  % Times (TeX Gyre Termes)
+\else
+  \usepackage{fontspec}
+  \IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}}{%
+    \setmainfont{TeX Gyre Termes}
+    \PackageWarningNoLine{tcc}{Times New Roman indisponivel. Usando TeX Gyre Termes; conferir a fonte antes do deposito}
+  }
+\fi
 \renewcommand{\ABNTEXchapterfontsize}{\normalsize}
 \renewcommand{\ABNTEXsectionfontsize}{\normalsize}
 \renewcommand{\ABNTEXsubsectionfontsize}{\normalsize}
