@@ -1,0 +1,73 @@
+\begin{figure}[htb]
+    \centering
+    \caption{Integrações da aplicação com outros sistemas}
+    \label{fig:integracoes}
+    \resizebox{\textwidth}{!}{%
+    \begin{tikzpicture}[fx,
+        sis/.style={fxbase, text width=2.45cm, minimum width=2.75cm, minimum height=1.45cm},
+        sisb/.style={fxbase, text width=3.5cm, minimum width=3.8cm, minimum height=1.6cm},
+        banco/.style={draw, fill=white, cylinder, shape border rotate=90, aspect=0.25,
+            minimum width=2.4cm, minimum height=1.4cm, align=center},
+        dado/.style={->, thin},
+        dado2/.style={<->, thin},
+        prot/.style={fxrot, fill=white, inner sep=1.5pt},
+        faixa/.style={draw=gray!70, fill=gray!12, rounded corners=4pt},
+        rotfaixa/.style={font=\linespread{1}\fontfamily{phv}\selectfont\footnotesize\bfseries, anchor=north west}]
+    % ---------- aplicação no Azure
+    \node[fxbase, text width=5.2cm, minimum width=5.6cm, minimum height=1.3cm, font=\linespread{1}\fontfamily{phv}\selectfont\small] (app) at (-2.2,0)
+        {\textbf{Aplicação QRQC}\\(Mendix)};
+    \node[banco, font=\linespread{1}\fontfamily{phv}\selectfont\scriptsize] (db) at (4.2,0) {Banco de dados\\MySQL};
+    \draw[dado2] (app) -- (db);
+    \coordinate (azl) at (-9.0,0); \coordinate (azr) at (9.0,0);
+    \begin{scope}[on background layer]
+      \node[draw, rounded corners=6pt, dashed, inner sep=0.45cm, fit=(app)(db)(azl)(azr)] (azure) {};
+    \end{scope}
+    \node[rotfaixa, font=\linespread{1}\fontfamily{phv}\selectfont\scriptsize\bfseries, inner sep=4pt] at (azure.north west) {Microsoft Azure};
+    % ---------- sistemas corporativos e serviços (acima)
+    \foreach \x/\n/\t in {-7.65/dados/{Dados gerais\\(localidades e clientes)},
+                          -4.6/sap/{SAP\\(dados de materiais)},
+                          -1.55/graph/{Microsoft Graph\\(dados de usuários)},
+                          1.5/okta/{Okta\\(autenticação)},
+                          4.55/tick/{Controle de tickets e ações},
+                          7.6/bi/{Power BI\\(indicadores)}} {
+      \node[sis] (\n) at (\x,4.1) {\t};
+    }
+    \draw[dado]  (dados.south) -- node[prot]{REST} (dados.south |- azure.north);
+    \draw[dado]  (sap.south)   -- node[prot]{REST} (sap.south |- azure.north);
+    \draw[dado]  (graph.south) -- node[prot]{REST} (graph.south |- azure.north);
+    \draw[dado2] (okta.south)  -- node[prot]{REST} (okta.south |- azure.north);
+    \draw[dado2] (tick.south)  -- node[prot]{REST} (tick.south |- azure.north);
+    \draw[dado]  (bi.south |- azure.north) -- node[prot]{OData} (bi.south);
+    % ---------- chão de fábrica (abaixo)
+    \foreach \x/\n/\t in {-6.9/mes/{Sistema de controle e execução do chão de fábrica (defeitos da linha e bloqueio de material)},
+                          -2.3/ger/{Sistema de automação (abertura automática de QRQC)},
+                          2.3/sir/{Sirene e sinaleira (Raspberry Pi), acionadas a cada QRQC criado ou pelo painel},
+                          6.9/mqtt/{Sistemas assinantes\\(dados do QRQC criado)}} {
+      \node[sisb] (\n) at (\x,-4.1) {\t};
+    }
+    \draw[dado2] (mes.north |- azure.south) -- node[prot]{REST} (mes.north);
+    \draw[dado]  (ger.north) -- node[prot]{REST} (ger.north |- azure.south);
+    \draw[dado]  (sir.north |- azure.south) -- node[prot]{REST} (sir.north);
+    \draw[dado]  (mqtt.north |- azure.south) -- node[prot]{MQTT} (mqtt.north);
+    % ---------- faixas
+    \begin{scope}[on background layer]
+      \node[faixa, inner sep=0.3cm, inner ysep=0.75cm, yshift=0.2cm, fit=(dados)(bi)] (fsup) {};
+      \node[faixa, inner sep=0.3cm, inner ysep=0.75cm, yshift=-0.2cm, fit=(mes)(mqtt)] (finf) {};
+    \end{scope}
+    \node[rotfaixa] at (fsup.north west) {\,Sistemas corporativos e serviços};
+    \node[rotfaixa, anchor=south west] at (finf.south west) {\,Chão de fábrica};
+    % ---------- painel de símbolos
+    \begin{scope}[shift={(-9.2,-7.3)}]
+      \node[font=\linespread{1}\fontfamily{phv}\selectfont\small\bfseries, anchor=west] (lt) at (0,0) {Símbolos};
+      \node[fxbase, minimum width=2.4cm, text width=2.1cm, minimum height=0.8cm, anchor=west] (l1) at (2.0,0) {Sistema};
+      \node[banco, minimum width=1.5cm, minimum height=0.9cm, anchor=west] (l2) at (5.0,0) {Banco\\de dados};
+      \draw[dado] (7.3,0) -- ++(1.1,0) node[right, fxrot, font=\linespread{1}\fontfamily{phv}\selectfont\scriptsize] (l3) {Envio de dados};
+      \draw[dado2] (11.0,0) -- ++(1.1,0) node[right, font=\linespread{1}\fontfamily{phv}\selectfont\scriptsize] (l4) {Envio e recebimento};
+      \begin{scope}[on background layer]
+        \node[draw, fill=gray!55, inner sep=7pt, fit=(lt)(l1)(l2)(l4)] {};
+      \end{scope}
+    \end{scope}
+    \node[fxquadro, fit=(current bounding box)] {};
+    \end{tikzpicture}}
+    \legend{Fonte: elaborado pelo autor (2026), com base nas integrações configuradas na aplicação.}
+\end{figure}

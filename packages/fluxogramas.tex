@@ -1,0 +1,53 @@
+% Estilo comum dos fluxogramas do TCC (símbolos usuais de fluxograma).
+% Requer \usetikzlibrary{arrows.meta,backgrounds,fit,calc,shapes.geometric}.
+\tikzset{
+  fx/.style={>=Latex, node distance=0.5cm and 0.6cm, font=\linespread{1}\fontfamily{phv}\selectfont\scriptsize},
+  fxbase/.style={execute at begin node={\hyphenpenalty=10000\exhyphenpenalty=10000\parindent=0pt}, draw, fill=white, align=center, text width=2.7cm,
+      minimum width=3.0cm, minimum height=1.0cm, inner sep=3pt},
+  fxterm/.style={fxbase, rounded corners=7pt},
+  fxproc/.style={fxbase},
+  fxsub/.style={fxbase, text width=2.2cm,
+      path picture={
+        \draw ([xshift=5pt]path picture bounding box.north west) --
+              ([xshift=5pt]path picture bounding box.south west);
+        \draw ([xshift=-5pt]path picture bounding box.north east) --
+              ([xshift=-5pt]path picture bounding box.south east);}},
+  fxdec/.style={execute at begin node={\hyphenpenalty=10000\parindent=0pt}, draw, fill=white, diamond, aspect=1.5, align=center,
+      text width=1.65cm, inner sep=1pt},
+  fxcon/.style={draw, fill=white, circle, minimum size=0.6cm, inner sep=0pt},
+  fxfim/.style={fxterm, text width=0.9cm, minimum width=1.1cm, minimum height=0.7cm},
+  fxrot/.style={font=\linespread{1}\fontfamily{phv}\selectfont\tiny, inner sep=3pt},
+  fxseta/.style={->, thin},
+  fxquadro/.style={draw, inner sep=8pt},
+  fxtermleg/.style={fxterm, text width=2.4cm, minimum width=2.6cm, minimum height=0.8cm},
+  fxprocleg/.style={fxproc, text width=2.4cm, minimum width=2.6cm, minimum height=0.8cm},
+  fxsubleg/.style={fxsub, text width=2.1cm, minimum width=2.6cm, minimum height=0.8cm},
+  fxdecleg/.style={fxdec, text width=1.35cm, aspect=2.2},
+  fxconleg/.style={fxcon, minimum size=1.5cm}
+}
+
+% Painel "Símbolos": #1 = topo do painel; #2 = lista estilo/nome; #3 = número de itens
+\newcommand{\simbolosFX}[3]{%
+  \begin{scope}[shift={(#1)}]
+    \node[font=\linespread{1}\fontfamily{phv}\selectfont\small\bfseries, anchor=north] (simb-t) at (0,0) {Símbolos};
+    \foreach [count=\k] \s/\t in {#2} {
+      \node[font=\linespread{1}\fontfamily{phv}\selectfont\scriptsize, \s] (simb-\k)
+        at (0,-0.45-\k*1.3) {\t};
+    }
+    \begin{scope}[on background layer]
+      \node[draw, fill=gray!55, inner sep=7pt, minimum width=3.3cm, fit=(simb-t)(simb-1)(simb-#3)] {};
+    \end{scope}
+  \end{scope}}
+
+% Painel "Símbolos" na horizontal (para figuras largas): #1 = canto esquerdo; #2 = lista; #3 = número de itens
+\newcommand{\simbolosFXh}[3]{%
+  \begin{scope}[shift={(#1)}]
+    \node[font=\linespread{1}\fontfamily{phv}\selectfont\small\bfseries, anchor=west] (simb-t) at (0,0) {Símbolos};
+    \foreach [count=\k] \s/\t in {#2} {
+      \node[font=\linespread{1}\fontfamily{phv}\selectfont\scriptsize, \s] (simb-\k)
+        at (0.6+\k*3.0,0) {\t};
+    }
+    \begin{scope}[on background layer]
+      \node[draw, fill=gray!55, inner sep=7pt, fit=(simb-t)(simb-1)(simb-#3)] {};
+    \end{scope}
+  \end{scope}}

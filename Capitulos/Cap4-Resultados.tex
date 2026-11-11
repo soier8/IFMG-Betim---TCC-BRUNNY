@@ -1,2 +1,247 @@
 \chapter{Resultados e discussão}
 \label{cap:resultados}
+
+\section{A aplicação implementada}
+\label{sec:aplicacao-implementada}
+
+Esta seção descreve a aplicação a partir de três perspectivas: a organização das informações, representada pelo modelo de domínio; o percurso de uma ocorrência pelas páginas utilizadas no tratamento do QRQC; e as integrações com outros sistemas. A descrição não abrange todas as funcionalidades nem todos os detalhes da aplicação. Foram selecionados os elementos relacionados ao registro e ao acompanhamento do QRQC, objeto deste trabalho, e omitidos aqueles que não contribuem para a análise ou que poderiam identificar a organização, como cadastros administrativos, regras específicas de cada unidade e detalhes de configuração. Do ponto de vista técnico, a aplicação é executada na plataforma de nuvem Microsoft Azure e armazena seus dados em um banco de dados relacional MySQL, no qual foram realizadas as consultas descritas na Seção~\ref{sec:fontes-coleta}. Cada etapa tem um responsável definido, conforme a Seção~\ref{sec:contexto}. No painel, uma ocorrência pode ser consultada em modo somente leitura, e a edição exige a validação do acesso do usuário; o histórico das aprovações registra quem aprovou, quando e qual foi a decisão, o que garante a rastreabilidade das etapas de verificação e de encerramento.
+
+\subsection{Organização das informações}
+\label{subsec:modelo-dominio}
+
+A Figura~\ref{fig:modelo-dominio} apresenta, de forma simplificada, o modelo de domínio da aplicação. Cada caixa representa uma entidade, com alguns de seus atributos, e cada linha representa uma associação entre entidades. Os números nas extremidades das linhas indicam a cardinalidade da associação: o valor 1 indica que um registro se relaciona a um único registro da outra entidade, e a letra N indica que pode se relacionar a vários. Os nomes das entidades e dos atributos foram traduzidos e generalizados para preservar a identidade da organização.
+
+\input{Capitulos/figura-modelo-dominio}
+
+A entidade Ocorrência concentra as informações da descrição do problema, como o defeito, a quantidade afetada, o turno e o local de detecção. Ela registra também a etapa em que a ocorrência se encontra, sua situação, um indicador de encerramento e as datas de abertura e de encerramento, a partir das quais é calculado o tempo até o encerramento apresentado na Seção~\ref{sec:indicadores}.
+
+As ações de contenção, corretivas e preventivas são armazenadas em uma única entidade, diferenciadas por um atributo de tipo. Como uma ocorrência pode ter várias ações de cada tipo, a associação entre essas entidades é do tipo um para muitos. A análise da causa, por sua vez, é registrada em uma entidade própria, dividida em duas partes: a análise para a ocorrência, que organiza as possíveis causas segundo as seis categorias do Diagrama de Ishikawa (mão de obra, método, máquina, material, medição e meio ambiente), e a análise para a detecção, que registra as causas, a sequência dos cinco porquês e a causa raiz. Essa estrutura reproduz, em meio digital, as ferramentas de análise descritas por \citeonline[p.~44--47]{rocha2012}.
+
+A verificação registra a quantidade de tentativas realizadas e de reprovações, e cada tentativa é armazenada separadamente, com data, turno, método e resultado. O encerramento depende de uma entidade de aprovação final, que guarda a situação, a data e o comentário do parecer do gestor da linha e do engenheiro da qualidade. Completam o modelo os anexos e fotos, vinculados à etapa a que se referem; os cadastros de apoio, como cliente, área, linha de produção, processo, tipo de defeito e sintoma; e uma configuração por unidade, que define, por exemplo, se as ações preventivas são obrigatórias e quantas verificações são exigidas.
+
+\subsection{Percurso de uma ocorrência na aplicação}
+\label{subsec:percurso}
+
+As telas apresentadas a seguir foram capturadas em ambiente de testes da aplicação, sem dados reais de produção. A interface original está em inglês, idioma adotado pela organização em seus sistemas; para facilitar a leitura, os textos das telas foram traduzidos para o português pelo autor. Além disso, nomes de pessoas, códigos internos de identificação e a localização das unidades foram removidos por recorte ou cobertos por tarjas cinza. Para garantir a legibilidade na versão impressa, os espaços vazios das telas foram reduzidos e, a partir da Figura~\ref{fig:app-contencao}, o indicador das etapas, já mostrado na Figura~\ref{fig:app-descricao}, foi omitido, sem alteração dos campos e da disposição dos elementos.
+
+O acesso ao QRQC começa pelo painel de ocorrências, apresentado na Figura~\ref{fig:app-painel}. O painel reúne as ocorrências da unidade e oferece busca geral, filtros por situação, por etapa e por célula de trabalho, um filtro detalhado e um recurso de alerta sonoro (sirene). É também a partir dele que uma nova ocorrência é aberta. Ao selecionar um registro, o painel exibe abas correspondentes às sete etapas do fluxo e um resumo lateral com a situação, a etapa atual, o tipo de QRQC e o responsável pela abertura, o que permite consultar qualquer etapa sem sair da lista.
+
+\figuraCaso[\textwidth]{app-painel.png}{Painel de ocorrências com o detalhe de um registro}{fig:app-painel}{}{elaborado pelo autor (2026), a partir de captura de tela da aplicação, com textos traduzidos e informações identificadoras ocultadas.}
+
+Ao abrir uma ocorrência, a página exibe no topo um indicador de progresso com as sete etapas numeradas, que acompanha o usuário em todas as páginas seguintes e destaca a etapa em andamento. A primeira etapa, de descrição do problema (Figura~\ref{fig:app-descricao}), é dividida em cinco seções: o tipo da ocorrência (produção, auditoria do produto acabado, conhecida como OBA, ou segurança); o local e o responsável pela detecção; a dimensão do problema, em quantidade e frequência; a categoria (produto, processo, equipamento, materiais ou outros); e os anexos. Cada seção mostra um indicador de preenchimento, e a ocorrência pode ser salva como rascunho antes de ser concluída. Essa organização corresponde à etapa de definição do problema do QRQC, apresentada na Seção~\ref{sec:referencia-qrqc}. Ao salvar, a aplicação valida os campos obrigatórios e, se estiverem completos, gera o identificador da ocorrência, envia o registro ao sistema integrado, grava a ocorrência e notifica os envolvidos, lógica apresentada no Apêndice~\ref{ap:salvar}.
+
+\figuraCaso[\textwidth]{app-descricao.png}{Etapa de descrição do problema, com o indicador das sete etapas}{fig:app-descricao}{}{elaborado pelo autor (2026), a partir de captura de tela da aplicação, com textos traduzidos e informações identificadoras ocultadas.}
+
+As ações de contenção são registradas na segunda etapa, em uma lista que mostra, para cada ação, o identificador, a data de criação, o responsável, o prazo, a data de encerramento, o tempo decorrido desde a abertura e a situação, que pode ser aberta, em andamento ou encerrada (Figura~\ref{fig:app-contencao}). A cada mudança de situação, o responsável recebe uma notificação por e-mail. As ações corretivas (etapa 4) e as ações preventivas e de comunicação (etapa 5) utilizam a mesma estrutura de página e, por isso, não são reproduzidas; na etapa corretiva, a aplicação exige ainda a indicação do defeito tratado.
+
+\figuraCaso[\textwidth]{app-contencao.png}{Lista de ações de contenção de uma ocorrência}{fig:app-contencao}{}{elaborado pelo autor (2026), a partir de captura de tela da aplicação, com textos traduzidos e informações identificadoras ocultadas.}
+
+A análise da causa, terceira etapa, é dividida em duas seções, mostradas na Figura~\ref{fig:app-causa-secoes}: uma para a ocorrência e outra para a detecção, cada uma com seu próprio indicador de preenchimento.
+
+\figuraCaso[\textwidth]{app-causa-secoes.png}{Etapa de análise da causa, com as seções para a ocorrência e para a detecção}{fig:app-causa-secoes}{}{elaborado pelo autor (2026), a partir de captura de tela da aplicação, com textos traduzidos e informações identificadoras ocultadas.}
+
+O conteúdo das duas seções é apresentado na Figura~\ref{fig:app-causa}. Na seção para a ocorrência, na parte superior da figura, a investigação é organizada pelas seis categorias do Diagrama de Ishikawa (mão de obra, método, máquina, material, medição e meio ambiente), e a seção é considerada completa quando ao menos uma categoria é preenchida. Na seção para a detecção, na parte inferior, são registradas as causas, a sequência dos cinco porquês e a causa raiz; segundo a documentação da aplicação, essa seção é obrigatória apenas para as ocorrências do tipo OBA. Dessa forma, as duas ferramentas descritas por \citeonline[p.~44--47]{rocha2012} passam a ser preenchidas diretamente na aplicação, vinculadas à ocorrência.
+
+\figuraCaso[0.85\textwidth]{app-causa.png}{Conteúdo da análise da causa: categorias do Diagrama de Ishikawa (para a ocorrência) e cinco porquês (para a detecção)}{fig:app-causa}{}{elaborado pelo autor (2026), a partir de capturas de tela da aplicação, com textos traduzidos.}
+
+Na sexta etapa, a verificação registra a checagem do resultado das ações ao longo da produção (Figura~\ref{fig:app-verificacao}). Cada verificação é registrada por turno ou por ordem de produção, com o responsável, o método, o turno, a ordem planejada, a data, a hora e o resultado, e os contadores de aprovações e reprovações indicam o progresso em relação ao número de verificações exigido pela configuração da unidade. Abaixo da lista, uma seção de histórico guarda os registros anteriores de verificação. A ocorrência de teste mostrada na figura ainda não tinha verificações registradas, por isso a lista e o histórico aparecem vazios.
+
+\figuraCaso[\textwidth]{app-verificacao.png}{Etapa de verificação, com os contadores de resultado, a lista de verificações e o histórico}{fig:app-verificacao}{}{elaborado pelo autor (2026), a partir de captura de tela da aplicação, com textos traduzidos e informações identificadoras ocultadas.}
+
+Por fim, o encerramento depende de duas aprovações em sequência, mostradas na Figura~\ref{fig:app-encerramento}: a do gestor da linha ou da célula de trabalho e, em seguida, a do engenheiro da qualidade, que indica também se a análise de modos de falha e efeitos do processo (PFMEA) precisa ser atualizada. Se uma das aprovações for recusada, a ocorrência retorna à etapa de ações corretivas, e o histórico das tentativas é preservado.
+
+\figuraCaso[\textwidth]{app-encerramento.png}{Etapa de encerramento, com as aprovações do gestor e do engenheiro da qualidade}{fig:app-encerramento}{}{elaborado pelo autor (2026), a partir de captura de tela da aplicação, com textos traduzidos e informações identificadoras ocultadas.}
+
+Além das páginas, a aplicação envia notificações diárias por e-mail aos responsáveis, que sinalizam verificações pendentes, ações vencidas, análises de causa sem preenchimento há mais de 24 horas e ocorrências prontas para o encerramento. Esse acompanhamento automático não depende da iniciativa de cada responsável, e sua aderência às práticas do QRQC é avaliada na seção seguinte.
+
+\subsection{Integrações com outros sistemas}
+\label{subsec:integracoes}
+
+Além das páginas, a aplicação troca dados com outros sistemas da organização por meio de interfaces de programação de aplicações (APIs), como mostra a Figura~\ref{fig:integracoes}. A maior parte das integrações segue o estilo REST, no qual os sistemas trocam mensagens por requisições HTTP \cite{fielding2000}. Os dados consumidos no Power BI são disponibilizados por OData, protocolo para a consulta de dados por serviços web \cite{oasis2020odata}, e os dados de cada nova ocorrência são publicados por MQTT, protocolo de mensagens do tipo publicação e assinatura, comum em aplicações de Internet das Coisas industrial \cite{oasis2019mqtt}.
+
+No nível corporativo, a aplicação recebe de um sistema centralizador os dados de localidades e clientes, do SAP os dados de materiais e, pela Microsoft Graph, os dados de usuários, e a autenticação é feita pelo Okta. Cada ocorrência criada gera um \textit{ticket} em um sistema de controle de \textit{tickets} e ações, ao qual também são enviadas as ações registradas nas etapas do QRQC.
+
+No chão de fábrica, a aplicação se integra ao sistema de controle e execução da produção, do qual recebe os defeitos registrados na linha. As ocorrências também podem ser abertas automaticamente por um sistema de automação, que cria o registro por API com os campos da descrição do problema preenchidos; é esse o meio de abertura automática mencionado na Seção~\ref{subsec:volume}. Quando uma ocorrência é aberta dessa forma, e se a unidade estiver configurada para isso, a aplicação pode solicitar ao sistema de chão de fábrica o bloqueio do material envolvido e, com ele, da linha de produção que o utiliza. A aplicação aciona ainda uma sirene e uma sinaleira por meio de um Raspberry Pi, tanto a cada ocorrência criada quanto pelo botão de sirene do painel de ocorrências (Figura~\ref{fig:app-painel}); o esquema elétrico desse acionamento é apresentado no Apêndice~\ref{ap:sirene}.
+
+\input{Capitulos/figura-integracoes}
+
+Essas integrações situam a aplicação no nível de gestão de operações de manufatura descrito pela IEC 62264 (Seção~\ref{sec:lowcode-industria}): ela recebe informações dos sistemas corporativos e do chão de fábrica e pode atuar sobre a produção, como no bloqueio de material. Os sistemas internos são identificados apenas pelo tipo, para preservar a organização.
+
+\section{Aderência da aplicação às etapas do QRQC}
+\label{sec:aderencia}
+
+As evidências reunidas na Seção~\ref{sec:aplicacao-implementada}, provenientes das páginas, do modelo de domínio e da documentação da aplicação, foram confrontadas com as oito etapas de referência do Quadro~\ref{quad:referencia-qrqc}, segundo os critérios do Quadro~\ref{quad:criterios}. O resultado é apresentado no Quadro~\ref{quad:aderencia}.
+
+\begin{quadro}[htb]
+    \centering
+    \caption{Aderência da aplicação às etapas do QRQC}
+    \label{quad:aderencia}
+    \footnotesize
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.7cm}
+                                    |>{\raggedright\arraybackslash}X
+                                    |>{\raggedright\arraybackslash}p{2.4cm}
+                                    |>{\raggedright\arraybackslash}p{1.9cm}|}
+        \hline
+        \textbf{Etapa} & \textbf{O que a aplicação registra} & \textbf{Evidência} & \textbf{Classificação} \\
+        \hline
+        1. Definição do problema & Descrição do problema com tipo, local e responsável pela detecção, quantidade e frequência, categoria, turno, material, data de abertura e anexos. & Figuras~\ref{fig:app-painel} e~\ref{fig:app-descricao}; Apêndice~\ref{ap:salvar} & Atendida \\
+        \hline
+        2. Avaliação do risco & Cliente e linha de produção em que o desvio ocorreu registrados na descrição do problema, sem campo para a abrangência a outros produtos ou processos. & Figura~\ref{fig:modelo-dominio} & Parcialmente atendida \\
+        \hline
+        3. Contenção & Lista de ações de contenção com responsável, prazo, data de encerramento, tempo decorrido e situação. & Figura~\ref{fig:app-contencao} & Atendida \\
+        \hline
+        4. Análise da causa de não detecção & Seção para a detecção, com causas, cinco porquês e causa raiz, obrigatória apenas para ocorrências do tipo OBA. & Figuras~\ref{fig:app-causa-secoes} e~\ref{fig:app-causa} & Parcialmente atendida \\
+        \hline
+        5. Análise da causa de ocorrência & Seção para a ocorrência, com as seis categorias do Diagrama de Ishikawa, considerada completa com ao menos uma categoria preenchida, sem campos próprios de cinco porquês e de causa raiz. & Figuras~\ref{fig:app-causa} e~\ref{fig:modelo-dominio} & Parcialmente atendida \\
+        \hline
+        6. Ações corretivas & Lista de ações corretivas com responsável, prazo e situação, e indicação obrigatória do defeito tratado, sem vínculo com uma causa específica. & Figuras~\ref{fig:app-contencao} e~\ref{fig:modelo-dominio} & Parcialmente atendida \\
+        \hline
+        7. Acompanhamento & Situação e tempo decorrido de cada ação, notificações de ações vencidas e verificação por turno ou ordem de produção, com contagem de aprovações e reprovações. & Figuras~\ref{fig:app-contencao} e~\ref{fig:app-verificacao} & Atendida \\
+        \hline
+        8. Lições aprendidas & Ações preventivas e de comunicação, indicação da necessidade de atualizar a PFMEA e histórico das aprovações, sem registro próprio e consultável das lições aprendidas. & Figura~\ref{fig:app-encerramento}; Seção~\ref{subsec:completude} & Parcialmente atendida \\
+        \hline
+    \end{tabularx}
+    \legend{Fonte: elaborado pelo autor (2026).}
+\end{quadro}
+
+Das oito etapas, três foram classificadas como atendidas e cinco como parcialmente atendidas, e nenhuma deixou de ser contemplada. A coluna de evidência indica as figuras e os dados em que cada classificação se apoia. A ordem das páginas da aplicação difere da sequência descrita por \citeonline[p.~221--222]{moreira2023}: a avaliação do risco está incorporada à descrição do problema, e as análises de ocorrência e de não detecção estão reunidas em uma mesma etapa. Como estabelecido na Seção~\ref{sec:referencia-qrqc}, essa diferença não compromete a aderência, pois as informações esperadas continuam registradas e vinculadas à ocorrência.
+
+As etapas atendidas concentram-se no registro do problema e no controle da execução. A definição do problema reúne, em campos estruturados, os elementos que o 5W2H organiza, como o que ocorreu, onde, quando, por quem foi detectado e em que quantidade. A contenção e o acompanhamento contam com recursos de controle, como o cálculo automático do tempo decorrido de cada ação e as notificações diárias por e-mail sobre ações vencidas e verificações pendentes.
+
+As cinco etapas parcialmente atendidas apontam limites da forma como a aplicação estrutura a análise. Na avaliação do risco, a descrição do problema registra o cliente e a linha de produção, mas essas informações indicam onde o desvio ocorreu, e não se ele pode atingir outros produtos ou processos, como prevê \citeonline[p.~221--222]{moreira2023}. A análise da causa de não detecção dispõe de campos próprios, mas é obrigatória apenas para as ocorrências do tipo OBA, que representam 3,9\% do total. Na análise da causa de ocorrência, o Diagrama de Ishikawa organiza as causas possíveis, mas a sequência dos cinco porquês e a causa raiz aparecem apenas na seção para a detecção. As ações corretivas ficam vinculadas à ocorrência como um todo, e não a uma causa específica, o que dificulta verificar se cada causa identificada recebeu uma ação. Por fim, as lições aprendidas aparecem apenas de forma indireta, nas ações preventivas e de comunicação, presentes em 69,9\% das ocorrências, e na indicação de que a PFMEA precisa ser atualizada, sem um registro próprio que possa ser consultado em ocorrências futuras. Esses pontos não impedem o tratamento das ocorrências, mas indicam oportunidades de melhoria na aplicação e são retomados na discussão.
+
+Além das etapas de referência, a aplicação incorpora recursos que dão suporte ao método, embora não constem da sequência do QRQC. As aprovações em sequência no encerramento, com retorno à etapa corretiva em caso de recusa, formalizam o controle da qualidade sobre o fechamento das ocorrências. A configuração por unidade, por sua vez, permite ajustar exigências, como a obrigatoriedade das ações preventivas e o número de verificações, à realidade de cada unidade.
+
+\section{Indicadores das ocorrências registradas}
+\label{sec:indicadores}
+
+Os dados extraídos do banco da aplicação abrangem as ocorrências das 19 unidades que a utilizam, abertas entre 30 de outubro de 2023 e 27 de outubro de 2026. Das ocorrências registradas, 4,4\% foram canceladas e, conforme a Seção~\ref{sec:analise}, desconsideradas dos indicadores. As demais compõem a base analisada. Para preservar a organização, os resultados são apresentados em percentuais, com uma casa decimal, de modo que algumas somas podem diferir ligeiramente de 100\%, e os clientes são identificados por códigos.
+
+\subsection{Volume e alcance do uso}
+\label{subsec:volume}
+
+A Figura~\ref{fig:volume-trimestral} mostra a participação de cada trimestre no total de ocorrências do período. O uso da aplicação cresceu ao longo do período: o segundo trimestre de 2026 concentrou 18,1\% das ocorrências, volume mais de onze vezes maior que o do primeiro trimestre de 2024. O quarto trimestre de 2026, encerrado na data da extração, aparece incompleto, e o de 2023, que reúne apenas os primeiros dias de operação, não foi representado. O número de clientes com ocorrências registradas acompanhou esse movimento e mais que dobrou entre 2024 e 2026, o que indica que a aplicação passou a abranger novas linhas e clientes ao longo do período. Ainda assim, o volume é concentrado: os cinco clientes com mais registros respondem por 60,7\% das ocorrências.
+
+\begin{figure}[htb]
+    \centering
+    \caption{Participação de cada trimestre no total de ocorrências do período}
+    \label{fig:volume-trimestral}
+    \begin{tikzpicture}
+        \begin{axis}[
+            width=\textwidth, height=6.2cm,
+            ybar, bar width=14pt, ymin=0, ymax=21,
+            xlabel={Trimestre}, ylabel={Ocorrências (\%)}, yticklabel={\pgfmathprintnumber[assume math mode=true,use comma]{\tick}}, xticklabel={\tick},
+            symbolic x coords={1T24,2T24,3T24,4T24,1T25,2T25,3T25,4T25,1T26,2T26,3T26,4T26*},
+            xtick=data, tick label style={font=\footnotesize},
+            nodes near coords={\pgfmathprintnumber[fixed,fixed zerofill,precision=1,use comma,assume math mode=true]{\pgfplotspointmeta}},
+            nodes near coords style={font=\scriptsize},
+            axis lines*=left, ymajorgrids, grid style={gray!25}]
+            \addplot[fill=gray!55, draw=gray!80] coordinates {(1T24,1.6) (2T24,2.4) (3T24,2.8) (4T24,3.9) (1T25,7.5) (2T25,10.8)
+                                  (3T25,10.5) (4T25,10.2) (1T26,13.5) (2T26,18.1) (3T26,14.4) (4T26*,4.2)};
+        \end{axis}
+    \end{tikzpicture}
+    \legend{Nota: 1T24 = primeiro trimestre de 2024, e assim sucessivamente; * trimestre incompleto, até a data da extração.\\Fonte: elaborado pelo autor (2026), a partir dos dados extraídos do banco da aplicação.}
+\end{figure}
+
+Quanto ao tipo, 96,1\% das ocorrências são de produção, 3,9\% de auditoria do produto acabado (OBA) e 0,1\% de segurança. Apenas 1,2\% foram abertas automaticamente por integração com outros sistemas; as demais foram registradas pelos usuários. Na descrição do problema, a categoria mais assinalada é processo (69,0\%), seguida de produto (24,9\%), equipamento (20,0\%), materiais (12,4\%) e outros (3,5\%), e 24,4\% das ocorrências têm mais de uma categoria. Entre os defeitos, predominam os classificados como anormais (17,5\%), danificados (7,6\%), ausentes (6,4\%), com solda insuficiente (5,1\%) e com curto-circuito ou ponte de solda (4,4\%).
+
+\subsection{Situação e andamento das ocorrências}
+\label{subsec:situacao}
+
+Na data da extração, 89,2\% das ocorrências estavam encerradas, 10,1\% em andamento e 0,7\% com ação vencida, situação que a aplicação atribui quando uma ação da ocorrência ultrapassa o prazo. Menos de 0,1\% não foram finalizadas por erro do sistema e foram tratadas como não encerradas. A Tabela~\ref{tab:andamento} mostra em que etapa se encontram as ocorrências não encerradas.
+
+\begin{table}[htb]
+    \centering
+    \caption{Etapa atual das ocorrências não encerradas}
+    \label{tab:andamento}
+    \footnotesize
+    \begin{tabular}{lr}
+        \hline
+        \textbf{Etapa} & \textbf{Participação (\%)} \\
+        \hline
+        Encerramento (aguardando aprovação) & 62,6 \\
+        Ação de contenção & 10,9 \\
+        Ação corretiva & 10,3 \\
+        Ação preventiva e comunicação & 5,8 \\
+        Verificação & 5,6 \\
+        Análise da causa & 4,7 \\
+        \hline
+    \end{tabular}
+    \legend{Fonte: elaborado pelo autor (2026), a partir dos dados extraídos do banco da aplicação.}
+\end{table}
+
+A maior parte das ocorrências em andamento já concluiu o tratamento e aguarda apenas as aprovações finais. Essas ocorrências estão abertas, em mediana, há 138 dias, o que indica que a etapa de encerramento acumula pendências e merece atenção. Entre as canceladas, 73,4\% foram interrompidas na análise da causa, o que pode indicar que é nessa etapa que os registros abertos indevidamente são identificados e descartados, embora o motivo do cancelamento não tenha sido analisado.
+
+\subsection{Tempo até o encerramento}
+\label{subsec:tempo}
+
+Para as ocorrências encerradas, o tempo entre a abertura e o encerramento tem mediana de 22,4 dias e média de 73,2 dias. A diferença entre as duas medidas se deve a um grupo de ocorrências muito longas: 10\% delas levaram mais de 216 dias para serem encerradas. Por outro lado, 17,9\% foram encerradas em até sete dias, e 56,7\% em até 30 dias. As ocorrências de OBA apresentam mediana de 42,9 dias, cerca do dobro das de produção (21,7 dias), o que é coerente com a exigência adicional da análise voltada à detecção para esse tipo.
+
+A mediana do tempo até o encerramento, calculada por trimestre de abertura, caiu de mais de 140 dias nas ocorrências abertas em 2024 para menos de 30 dias a partir do segundo trimestre de 2025. Essa medida, porém, é afetada pelas ocorrências ainda não encerradas: nos trimestres mais recentes, só entram no cálculo as que já foram encerradas, que tendem a ser as mais rápidas. As medianas elevadas de 2024 também podem refletir a adoção tardia da etapa de encerramento na aplicação, já que as primeiras ocorrências só foram encerradas a partir de meados daquele ano, e não apenas o tempo de tratamento.
+
+Para reduzir esse efeito, a Figura~\ref{fig:encerradas-30} apresenta, por trimestre de abertura, a proporção de ocorrências encerradas em até 30 dias. Foram consideradas apenas as ocorrências abertas até 30 dias antes da extração, de modo que todas tiveram ao menos 30 dias de observação, e as que não foram encerradas nesse prazo contam como não encerradas.
+
+\begin{figure}[htb]
+    \centering
+    \caption{Ocorrências encerradas em até 30 dias, por trimestre de abertura}
+    \label{fig:encerradas-30}
+    \begin{tikzpicture}
+        \begin{axis}[
+            width=\textwidth, height=6.2cm,
+            ybar, bar width=14pt, ymin=0, ymax=75,
+            xlabel={Trimestre de abertura}, ylabel={Encerradas em até 30 dias (\%)}, yticklabel={\pgfmathprintnumber[assume math mode=true,use comma]{\tick}}, xticklabel={\tick},
+            symbolic x coords={1T24,2T24,3T24,4T24,1T25,2T25,3T25,4T25,1T26,2T26,3T26},
+            xtick=data, tick label style={font=\footnotesize},
+            nodes near coords={\pgfmathprintnumber[fixed,fixed zerofill,precision=1,use comma,assume math mode=true]{\pgfplotspointmeta}},
+            nodes near coords style={font=\scriptsize},
+            axis lines*=left, ymajorgrids, grid style={gray!25}]
+            \addplot[fill=gray!55, draw=gray!80] coordinates {(1T24,0.0) (2T24,0.3) (3T24,3.3) (4T24,16.0) (1T25,26.3) (2T25,47.6) (3T25,52.4) (4T25,64.1) (1T26,56.4) (2T26,58.2) (3T26,65.9)};
+        \end{axis}
+    \end{tikzpicture}
+    \legend{Nota: 1T24 = primeiro trimestre de 2024, e assim sucessivamente; o terceiro trimestre de 2026 inclui apenas as ocorrências abertas até 27 de setembro, e o quarto trimestre foi omitido.\\Fonte: elaborado pelo autor (2026), a partir dos dados extraídos do banco da aplicação.}
+\end{figure}
+
+A proporção encerrada em até 30 dias passou de quase zero no primeiro semestre de 2024 para 47,6\% no segundo trimestre de 2025 e, desde então, variou entre 52\% e 66\%. Esse comportamento é um indício de redução do tempo de tratamento até 2025, à medida que o uso da aplicação se consolidou, seguida de estabilidade, e não confirma uma queda contínua após 2025. Como não há dados do processo anterior, esse resultado também não mede o efeito da aplicação.
+
+\subsection{Ações, verificação e completude dos registros}
+\label{subsec:completude}
+
+As ocorrências têm, em média, 3,0 ações vinculadas. Praticamente todas possuem ao menos uma ação de contenção (99,9\%) e uma ação corretiva (98,4\%), enquanto 69,9\% possuem ação preventiva, o que é compatível com a configuração que torna essa ação opcional em algumas unidades. Na verificação, 98,0\% das ocorrências não tiveram nenhuma reprovação registrada. O dado mostra o resultado da verificação registrada na aplicação, mas não permite afirmar a eficácia das ações no processo produtivo, e a baixa taxa de reprovação também pode refletir critérios de verificação pouco exigentes.
+
+A Tabela~\ref{tab:completude} resume a completude dos principais campos da descrição do problema. A completude dos campos da análise da causa não foi medida, pois são campos de texto livre, excluídos da extração para preservar a anonimização.
+
+\begin{table}[htb]
+    \centering
+    \caption{Completude dos principais campos da descrição do problema}
+    \label{tab:completude}
+    \footnotesize
+    \begin{tabular}{lr}
+        \hline
+        \textbf{Campo} & \textbf{Ocorrências preenchidas (\%)} \\
+        \hline
+        Tipo da ocorrência & 100,0 \\
+        Categoria (ao menos uma) & 100,0 \\
+        Defeito & 97,2 \\
+        \hline
+    \end{tabular}
+    \legend{Fonte: elaborado pelo autor (2026), a partir dos dados extraídos do banco da aplicação.}
+\end{table}
+
+Os campos obrigatórios apresentam completude elevada, mas os dados revelam um limite de padronização: o defeito apresenta um grande número de descrições diferentes, mesmo desconsiderando maiúsculas e minúsculas, inclusive em outros idiomas, o que indica a ausência de uma lista padronizada comum às unidades e dificulta a análise por tipo de defeito. Esses resultados, junto com os da aderência, são discutidos na seção seguinte.
+
+\section{Discussão}
+\label{sec:discussao}
+
+Os resultados mostram que a aplicação organiza o registro do QRQC em torno de uma entidade central, a ocorrência, à qual se vinculam a descrição do problema, as ações, a análise da causa, a verificação e as aprovações. Essa estrutura corresponde à preocupação apontada por \citeonline[p.~94--95]{rogers2016} de que os dados gerados por processos internos possam ser recuperados e utilizados na gestão das operações: cada ocorrência reúne, em um único registro, a descrição do problema, as ações, a análise e as aprovações. Em relação ao modelo de \citeonline[p.~9--12]{leite2024}, apresentado na Seção~\ref{sec:td}, a aplicação atua principalmente na dimensão de gestão de dados e informações, e o estudo não permite avaliar as demais dimensões da transformação digital. A comparação com as etapas de referência mostra que nenhuma etapa deixou de ser contemplada, mas que cinco das oito são atendidas apenas em parte.
+
+A forma como as ferramentas do QRQC foram digitalizadas reforça o critério adotado na Seção~\ref{sec:referencia-qrqc}. A aplicação não reproduz a aparência do 5W2H nem do Diagrama de Ishikawa, mas transforma suas perguntas em campos estruturados e vinculados à ocorrência, como discutido por \citeonline[p.~44--47]{rocha2012}. Os recursos mais evidentes estão no controle da execução: o tempo decorrido de cada ação é calculado automaticamente, as pendências geram notificações e o encerramento depende de aprovações registradas. Com eles, o acompanhamento das pendências é feito pela própria aplicação, sem depender apenas da iniciativa de cada responsável.
+
+As etapas parcialmente atendidas indicam onde a estrutura da aplicação limita a análise. Como a sequência dos cinco porquês e a causa raiz estão concentradas na análise voltada à detecção, a causa de ocorrência fica, na maioria dos casos, restrita às categorias do Diagrama de Ishikawa. Além disso, como as ações corretivas não se vinculam a uma causa específica, não é possível verificar pelos dados se cada causa identificada recebeu uma ação. Em ambos os casos, a informação pode ser registrada em texto, mas não de forma estruturada, o que dificulta sua recuperação e análise posterior. O mesmo ocorre com a abrangência do risco e com as lições aprendidas, que não dispõem de campos próprios que permitam consultá-las em ocorrências futuras.
+
+Os indicadores mostram uma adoção crescente da aplicação, com aumento do volume de ocorrências e do número de clientes atendidos, e um indício de redução do tempo até o encerramento até 2025, seguido de estabilidade. Esses resultados não permitem, contudo, atribuir a redução à aplicação. Como não há dados comparáveis do processo anterior, e como mudanças na equipe, nas rotinas e no próprio uso da ferramenta ocorreram no mesmo período, a queda do tempo deve ser entendida como um indício de amadurecimento do processo digitalizado, e não como uma medida de seu efeito. Essa limitação é semelhante à reconhecida por \citeonline{furtado2025}, cuja avaliação também não abrangeu os efeitos no processo produtivo, e diferencia este estudo do de \citeonline{meira2025}, que dispunha de registros físicos para comparação.
+
+Os dados também evidenciam que a existência de um campo não assegura a qualidade da informação registrada, como alertam \citeonline{wangstrong1996}. Os campos obrigatórios apresentam completude elevada, mas o defeito apresenta um grande número de descrições diferentes. Esse resultado é coerente com a observação de \citeonline{walther2011} de que os campos de texto livre concentram mais erros que os de seleção: o registro digital elimina a transcrição, mas a padronização da informação depende de como os campos são definidos. Da mesma forma, a concentração de ocorrências em andamento aguardando as aprovações finais mostra que um fluxo bem estruturado na aplicação ainda depende da adesão das pessoas envolvidas. Esses pontos se aproximam das barreiras organizacionais descritas por \citeonline[p.~154]{murici2022}, como a comunicação ineficaz e o desconhecimento dos profissionais, embora sua ocorrência no caso não tenha sido investigada diretamente.
+
+A partir desses resultados, quatro melhorias podem ser indicadas para a aplicação: a padronização do defeito por meio de uma lista de opções comum às unidades, com a possibilidade de complementação em texto; a inclusão dos cinco porquês e da causa raiz também na análise da causa de ocorrência, com o vínculo de cada ação corretiva à causa que pretende eliminar; o registro estruturado da abrangência do desvio e das lições aprendidas; e o acompanhamento específico das ocorrências que aguardam as aprovações finais, com notificações aos aprovadores. Quanto à plataforma, os resultados são compatíveis com a observação de \citeonline[p.~737--738]{bockfrank2021} de que o \textit{low-code} é adequado a projetos que se ajustam às suas abstrações: o QRQC, por ser um fluxo de formulários, etapas e aprovações sobre um modelo de dados bem definido, encontra no Mendix os recursos necessários, o que é coerente com a escolha da plataforma pela organização. O caso, contudo, não permite avaliar os riscos apontados por \citeonline[p.~3--4]{sanchis2020} e por \citeonline[seç.~2]{cruz2021}. A aplicação está em uso em 19 unidades e acumula três anos de registros, o que mostra que opera nessa escala, mas o estudo não mediu desempenho, custo de manutenção, segurança da informação nem a dependência em relação ao fornecedor da plataforma. Assim, o uso do \textit{low-code} é compatível com o caso, mas não foi avaliado nessas dimensões. Na perspectiva da IEC 62264, apresentada na Seção~\ref{sec:lowcode-industria}, a aplicação cumpre uma função de gestão de operações da qualidade; a abertura automática de 1,2\% das ocorrências por integração com outros sistemas mostra que a ligação com os demais níveis existe, mas ainda é pouco explorada.
+
+Por fim, as conclusões estão limitadas ao que foi possível observar. A análise considerou as páginas, o modelo de domínio, a documentação e os dados acessíveis ao pesquisador, e não incluiu entrevistas com os usuários nem a observação do uso no chão de fábrica. Além disso, a análise não diferenciou as unidades, o que pode esconder diferenças de padronização e de tempo entre elas, e a classificação da aderência foi feita apenas pelo autor, o que é mitigado, mas não eliminado, pela indicação das evidências de cada classificação no Quadro~\ref{quad:aderencia}.

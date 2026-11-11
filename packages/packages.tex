@@ -18,7 +18,11 @@
 \usepackage{array}
 \usepackage{placeins}
 \usepackage{tikz}
-\usetikzlibrary{arrows.meta,backgrounds,fit,positioning}
+\usetikzlibrary{arrows.meta,backgrounds,fit,positioning,shapes.geometric,calc}
+\usepackage{pdflscape}
+\input{packages/fluxogramas}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16}
 
 
 %\usepackage[num]{abntex2cite}	% Citações padrão ABNT númerico
@@ -44,6 +48,11 @@
 % Ao adicionar o arquivo indicado na pasta Figuras, o quadro de orientação
 % desaparece e a imagem passa a ser exibida com a mesma legenda e rótulo.
 % Uso: \figuraCaso[largura]{arquivo}{legenda}{rotulo}{orientacao}{fonte}
+% Frações de página para floats: evita páginas com grandes espaços vazios
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.75}
 \newcommand{\figuraCaso}[6][0.92\textwidth]{%
     \begin{figure}[htb]
         \centering
@@ -116,7 +125,7 @@
 \renewcommand{\legend}[1]{\par\smallskip{\footnotesize\SingleSpacing\noindent\raggedright #1\par}}
 \captionnamefont{\normalsize}
 \captiontitlefont{\normalsize}
-\captionstyle{\raggedright}
+\normalcaption\captionstyle{\centering} % títulos de figuras, quadros e tabelas centralizados
 \setlength{\emergencystretch}{1em}
 \renewcommand{\ABNTEXchapterfont}{\rmfamily\bfseries}
 \renewcommand{\ABNTEXsubsectionfont}{\rmfamily\bfseries\itshape}
