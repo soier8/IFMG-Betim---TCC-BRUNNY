@@ -39,7 +39,7 @@
     \draw[dado2] (tick.south)  -- node[prot]{REST} (tick.south |- azure.north);
     \draw[dado]  (bi.south |- azure.north) -- node[prot]{OData} (bi.south);
     % ---------- chão de fábrica (abaixo)
-    \foreach \x/\n/\t in {-6.9/mes/{Sistema de controle e execução do chão de fábrica (defeitos da linha e bloqueio de material)},
+    \foreach \x/\n/\t in {-6.9/mes/{Sistema de controle e execução da produção (defeitos da linha e bloqueio de material)},
                           -2.3/ger/{Sistema de automação (abertura automática de QRQC)},
                           2.3/sir/{Sirene e sinaleira (Raspberry Pi), acionadas a cada QRQC criado ou pelo painel},
                           6.9/mqtt/{Sistemas assinantes\\(dados do QRQC criado)}} {
@@ -69,5 +69,5 @@
     \end{scope}
     \node[fxquadro, fit=(current bounding box)] {};
     \end{tikzpicture}}
-    \legend{Fonte: elaborado pelo autor (2026), com base nas integrações configuradas na aplicação.}
+    \legend{Fonte: elaborado pelo autor (2026), com base na documentação interna e nas integrações configuradas na aplicação.}
 \end{figure}

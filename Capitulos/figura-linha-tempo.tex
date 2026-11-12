@@ -1,0 +1,44 @@
+\begin{figure}[htb]
+    \centering
+    \caption{Linha do tempo da aplicação}
+    \label{fig:linha-tempo}
+    \resizebox{\textwidth}{!}{%
+    \begin{tikzpicture}[fx,
+        ev/.style={execute at begin node={\hyphenpenalty=10000\parindent=0pt}, align=center, text width=3.0cm, font=\linespread{1}\fontfamily{phv}\selectfont\scriptsize},
+        marco/.style={circle, fill=black, inner sep=1.8pt},
+        haste/.style={thin, gray}]
+    % eixo: 4 cm por ano, x = 0 em jan./2023
+    \draw[->, thick] (-0.3,0) -- (16.6,0);
+    \foreach \a [count=\i from 0] in {2023,2024,2025,2026} {
+      \draw (4*\i,0.12) -- (4*\i,-0.12);
+      \node[font=\linespread{1}\fontfamily{phv}\selectfont\footnotesize\bfseries, anchor=north] at (4*\i,-0.15) {\a};
+    }
+    \draw (16,0.12) -- (16,-0.12);
+    \node[font=\linespread{1}\fontfamily{phv}\selectfont\footnotesize\bfseries, anchor=north] at (16,-0.15) {2027};
+    % períodos (acima do eixo)
+    \draw[thick, |-|] (0.05,0.55) -- (3.95,0.55);
+    \node[ev, anchor=south] at (2,0.6) {Concepção e desenvolvimento da aplicação};
+    \draw[thick, |-|] (8.05,0.55) -- (11.95,0.55);
+    \node[ev, anchor=south, text width=3.4cm] at (10,0.6) {Desenvolvimento do novo sistema de automação para a abertura de ocorrências};
+    % marcos acima do eixo
+    \node[marco] at (5.67,0) {};
+    \draw[haste] (5.67,0) -- (5.67,1.3);
+    \node[ev, anchor=south] at (5.67,1.3) {jun./2024\\Primeiros encerramentos registrados};
+    \node[marco] at (15,0) {};
+    \draw[haste] (15,0) -- (15,1.3);
+    \node[ev, anchor=south] at (15,1.3) {out./2026\\Extração dos dados};
+    % marcos abaixo do eixo
+    \foreach \x/\t in {3.0/{out./2023\\Primeira ocorrência registrada em produção},
+                       10.33/{ago./2025\\Entrada do autor na equipe de desenvolvimento},
+                       13.33/{mai./2026\\Primeiras ocorrências abertas automaticamente}} {
+      \node[marco] at (\x,0) {};
+      \draw[haste] (\x,0) -- (\x,-0.95);
+      \node[ev, anchor=north] at (\x,-0.95) {\t};
+    }
+    % período analisado
+    \draw[thick, |-|] (3.0,-2.75) -- (15,-2.75);
+    \node[ev, anchor=north, text width=6cm] at (9,-2.8) {Período dos dados analisados (out./2023 a out./2026)};
+    \node[fxquadro, fit=(current bounding box)] {};
+    \end{tikzpicture}}
+    \legend{Fonte: elaborado pelo autor (2026), com base na documentação interna e nos dados extraídos do banco da aplicação.}
+\end{figure}

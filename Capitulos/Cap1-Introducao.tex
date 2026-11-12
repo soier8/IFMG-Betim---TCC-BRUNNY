@@ -5,7 +5,7 @@ O uso de tecnologias digitais tem modificado a forma como as organizações dese
 
 Neste trabalho, o termo \emph{digitalização de processos} refere-se à organização de uma rotina e de seus registros em meio digital. O estudo examina uma aplicação específica; não busca demonstrar uma transformação organizacional ampla, que dependeria também de mudanças na estratégia, nas formas de trabalho e nas competências das pessoas \cite[p.~57]{murici2022}.
 
-A rotina abordada é a Resposta Rápida para o Controle da Qualidade (QRQC), voltada ao tratamento de desvios da qualidade. O objeto de estudo é uma aplicação desenvolvida na plataforma \textit{low-code} Mendix para apoiar o registro e o acompanhamento dessa rotina. A análise concentra-se nas páginas, na organização dos dados e nas regras de funcionamento que possam ser examinadas na versão em uso, à qual o pesquisador tem acesso como integrante da equipe responsável pela aplicação. O contexto organizacional é descrito de maneira genérica para preservar sua identidade.
+A rotina abordada é a Resposta Rápida para o Controle da Qualidade (QRQC), voltada ao tratamento de desvios da qualidade. O objeto de estudo é uma aplicação desenvolvida na plataforma \textit{low-code} Mendix para apoiar o registro e o acompanhamento dessa rotina. A análise concentra-se nas páginas, na organização dos dados, nas regras de funcionamento e nas integrações que possam ser examinadas na versão em uso, à qual o pesquisador tem acesso como integrante da equipe responsável pela aplicação. O contexto organizacional é descrito de maneira genérica para preservar sua identidade.
 
 Como não estão disponíveis registros nem documentação suficientes para reconstruir o processo anterior à aplicação, este trabalho não compara as configurações manual e digital. A questão de pesquisa é: \emph{como a aplicação em Mendix organiza o registro e o acompanhamento das informações do QRQC, e em que medida as funcionalidades verificáveis representam as etapas desse processo?}
 
@@ -17,6 +17,8 @@ O tratamento de um desvio da qualidade requer que informações sobre o problema
 No caso estudado, segundo relato da equipe responsável, o registro do QRQC era feito em formulário de papel e depois transcrito para planilhas, e a aplicação foi criada para substituir esse fluxo. Examinar o que ela efetivamente permite registrar e como os registros têm sido preenchidos oferece à organização elementos objetivos para aprimorá-la, como os pontos de melhoria apresentados na Seção~\ref{sec:discussao}.
 
 O uso do Mendix também oferece um caso de aplicação de \textit{low-code} em uma rotina industrial. A descrição articulada das interfaces, do modelo de dados e da lógica da aplicação pode servir de referência para estudos semelhantes, desde que consideradas as particularidades e os limites das evidências disponíveis. O trabalho não pressupõe que a digitalização, por si só, tenha melhorado o desempenho da rotina.
+
+Para a Engenharia de Controle e Automação, o caso interessa por situar-se na camada de gestão de operações da hierarquia de integração entre o chão de fábrica e os sistemas corporativos descrita pela IEC 62264. Nessa camada, a aplicação recebe dados dos sistemas de produção, pode ter ocorrências abertas automaticamente por um sistema de automação, pode solicitar o bloqueio de material e aciona dispositivos na área produtiva, como uma sirene.
 
 \section{Objetivos}
 
@@ -30,11 +32,11 @@ Para atingir o objetivo geral, foram definidos os seguintes objetivos específic
 
 \begin{alineas}
     \item identificar as etapas do QRQC pertinentes à análise da aplicação, com base na literatura consultada;
-    \item descrever as páginas, os campos, as relações de dados e as regras da aplicação que estejam acessíveis ao pesquisador;
+    \item descrever as páginas, os campos, as relações de dados, as regras e as integrações da aplicação que estejam acessíveis ao pesquisador;
     \item descrever, com base nos dados extraídos do banco de dados da aplicação, as ocorrências registradas, sua situação, a etapa em que se encontram e o tempo até o encerramento;
     \item discutir a correspondência entre as funcionalidades verificadas e as etapas do QRQC, bem como as limitações da solução e da própria análise.
 \end{alineas}
 
 \section{Organização do texto}
 
-O Capítulo~\ref{cap:FundamentacaoTeorica} apresenta os conceitos de digitalização, QRQC, dados na manufatura, \textit{low-code} e Mendix. O Capítulo~\ref{cap:metodologia} descreve a caracterização da pesquisa, o contexto do caso, as fontes de evidência e os procedimentos de análise. O Capítulo~\ref{cap:resultados} apresenta a aplicação, sua aderência às etapas do QRQC e os indicadores das ocorrências registradas, seguidos da discussão dos resultados. Por fim, o Capítulo~\ref{cap:conclusao} reúne as considerações finais, as limitações do estudo e as sugestões de trabalhos futuros.
+O Capítulo~\ref{cap:FundamentacaoTeorica} apresenta os conceitos de digitalização, QRQC, dados na manufatura, \textit{low-code}, a posição dessas aplicações na hierarquia da IEC 62264 e a plataforma Mendix. O Capítulo~\ref{cap:metodologia} descreve a caracterização da pesquisa, o contexto do caso, as fontes de evidência e os procedimentos de análise. O Capítulo~\ref{cap:resultados} apresenta a aplicação e suas integrações, sua aderência às etapas do QRQC e os indicadores das ocorrências registradas, seguidos da discussão dos resultados. Por fim, o Capítulo~\ref{cap:conclusao} reúne as considerações finais, as limitações do estudo e as sugestões de trabalhos futuros.
