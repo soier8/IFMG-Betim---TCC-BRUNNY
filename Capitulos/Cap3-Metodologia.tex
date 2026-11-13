@@ -4,11 +4,11 @@
 \section{Caracterização da pesquisa}
 \label{sec:caracterizacao}
 
-Quanto à natureza, a pesquisa é aplicada, pois trata de um problema concreto: a organização do registro e do acompanhamento das informações do QRQC em uma rotina industrial. Quanto aos objetivos, é descritiva, uma vez que busca registrar como a aplicação estrutura esse processo e o que os dados nela registrados revelam sobre o tratamento das ocorrências, sem estabelecer relações de causa e efeito \cite{prodanov2013}.
+Quanto à natureza, a pesquisa é aplicada, pois trata de um problema concreto: a organização do registro e do acompanhamento das informações do QRQC em uma rotina industrial. Quanto aos objetivos, é descritiva, uma vez que registra e descreve como a aplicação estrutura esse processo e o que os dados nela registrados revelam sobre o tratamento das ocorrências, sem interferir nos fatos observados \cite[p.~51--52]{prodanov2013}.
 
-Quanto à abordagem, a pesquisa combina elementos qualitativos e quantitativos. A parte qualitativa consiste no exame das páginas, do modelo de domínio, das regras e das integrações da aplicação, interpretados à luz das etapas do QRQC descritas na literatura. A parte quantitativa consiste na descrição de indicadores calculados a partir dos dados das ocorrências, extraídos do banco de dados da própria aplicação \cite{prodanov2013}.
+Quanto à abordagem, a pesquisa combina elementos qualitativos e quantitativos. A parte qualitativa consiste no exame das páginas, do modelo de domínio, das regras e das integrações da aplicação, interpretados à luz das etapas do QRQC descritas na literatura. A parte quantitativa traduz em números as informações das ocorrências, extraídas do banco de dados da própria aplicação, e as analisa por meio de indicadores descritivos, como percentuais \cite[p.~69]{prodanov2013}.
 
-Quanto aos procedimentos, adota-se o estudo de caso único, adequado quando se pretende examinar um fenômeno contemporâneo em seu contexto real, com o apoio de múltiplas fontes de evidência \cite{yin2018}. O caso é o QRQC digitalizado por meio de uma aplicação desenvolvida em Mendix. A unidade de análise é essa aplicação, examinada em sua totalidade quanto ao suporte que oferece às etapas do QRQC; funcionalidades de apoio, como cadastros de usuários e de tipos de defeito, são consideradas na medida em que sustentam o registro e o acompanhamento das ocorrências.
+Quanto aos procedimentos, adota-se o estudo de caso único, adequado ao estudo intensivo de um fenômeno em seu contexto real, com dados obtidos por múltiplos métodos de coleta \cite[p.~93]{bhattacherjee2012}. O caso é o QRQC digitalizado por meio de uma aplicação desenvolvida em Mendix. A unidade de análise é essa aplicação, examinada em sua totalidade quanto ao suporte que oferece às etapas do QRQC; funcionalidades de apoio, como cadastros de usuários e de tipos de defeito, são consideradas na medida em que sustentam o registro e o acompanhamento das ocorrências.
 
 O estudo não compara o processo antes e depois da implantação da aplicação, pois não há registros suficientes sobre a rotina anterior. Assim, os indicadores obtidos descrevem o funcionamento do processo no período analisado, mas não permitem afirmar que a digitalização tenha provocado melhorias de desempenho. A organização é identificada por nome fictício, e os dados apresentados são anonimizados.
 
@@ -61,7 +61,7 @@ Concluídas essas etapas, o gestor da linha realiza a verificação, por meio de
       \draw[fxseta] (\n) -- (\n-b);
     }
     \node[fxrot, align=center, above=0.1cm of corr-a] {etapas executadas em paralelo};
-    \node[fxcon] (c4b) at ($(corr-a)+(0.95,0)$) {4};
+    \node[fxcon] (c4b) at ($(corr-a)+(0.95,0)$) {3};
     \coordinate (c4m) at ($(corr-a.south)!0.5!(corr.north)$);
     \draw[fxseta] (c4b) |- (c4m);
     % ---------- coluna 5
@@ -72,8 +72,8 @@ Concluídas essas etapas, o gestor da linha realiza a verificação, por meio de
     \node[fxproc, below=of d4] (enc) {Encerramento (gestor e engenheiro da qualidade)};
     \node[fxdec, below=of enc] (d5) {Duas aprovações?};
     \node[fxterm, below=of d5] (fim) {Fim};
-    \node[fxcon] (c4) at ($(d4)+(2.5,0)$) {4};
-    \node[fxcon] (c4c) at ($(d5)+(2.5,0)$) {4};
+    \node[fxcon] (c4) at ($(d4)+(2.5,0)$) {3};
+    \node[fxcon] (c4c) at ($(d5)+(2.5,0)$) {3};
     \draw[fxseta] (c2b) -- (d3);
     \draw[fxseta] (d3.east) -- node[fxrot, above]{Não} ++(0.6,0) |- ($(c2b.south)!0.5!(d3.north)$);
     \draw[fxseta] (d3) -- node[fxrot, left, pos=0.4]{Sim} (verif);
@@ -152,7 +152,7 @@ Para avaliar a correspondência entre a aplicação e o processo, adotou-se como
         \hline
         7. Acompanhamento & Verificar a execução e o resultado das ações. & Andamento das ações e resultado da verificação de sua eficácia. \\
         \hline
-        8. Lições aprendidas & Registrar o conhecimento obtido para evitar a recorrência. & Ações preventivas, padronizações e registro do encerramento. \\
+        8. Lições aprendidas & Registrar o conhecimento obtido para evitar a recorrência. & Ações preventivas, padronizações, registro do encerramento e do conhecimento obtido, consultável em ocorrências futuras. \\
         \hline
     \end{tabularx}
     \legend{Fonte: elaborado pelo autor (2026), com base em \citeonline[p.~221--222]{moreira2023} e \citeonline[p.~44--47]{rocha2012}.}
@@ -163,7 +163,7 @@ A comparação baseia-se nas informações e nos vínculos que o registro permit
 \section{Fontes de evidência e coleta de dados}
 \label{sec:fontes-coleta}
 
-Conforme recomendado para estudos de caso, foram combinadas diferentes fontes de evidência \cite{yin2018}. O Quadro~\ref{quad:fontes} sintetiza cada fonte, o que dela foi obtido e o seu uso na pesquisa.
+Como é usual em estudos de caso, foram combinadas diferentes fontes de evidência \cite[p.~93, 95]{bhattacherjee2012}. O Quadro~\ref{quad:fontes} sintetiza cada fonte, o que dela foi obtido e o seu uso na pesquisa.
 
 A primeira fonte foi a documentação interna da aplicação, que descreve as etapas do fluxo de uma ocorrência, os responsáveis por cada uma, as regras de passagem entre elas e as integrações com outros sistemas, incluindo o esquema elétrico de acionamento da sirene. Essa documentação fundamenta a descrição apresentada nas Seções~\ref{sec:contexto} e~\ref{subsec:integracoes} e no Apêndice~\ref{ap:sirene}.
 
@@ -225,7 +225,7 @@ Na análise de aderência, cada uma das oito etapas do Quadro~\ref{quad:referenc
 
 A classificação considera o que a aplicação permite registrar, e não a qualidade do preenchimento em cada ocorrência. Esse segundo aspecto é examinado na análise dos dados.
 
-Na análise dos dados, as ocorrências canceladas foram desconsideradas dos indicadores, de modo que permanecessem apenas as ocorrências efetivamente tratadas no período; delas, registrou-se apenas a etapa em que foram interrompidas. Os dados foram então organizados em estatísticas descritivas: a distribuição percentual das ocorrências por período, por tipo, por forma de abertura, por categoria, por defeito e por cliente; a distribuição das ocorrências segundo a situação e a etapa em que se encontram; o tempo total até o encerramento, calculado pela diferença entre as datas de abertura e de encerramento; a quantidade de ações por ocorrência; e o número de verificações reprovadas. Para os tempos, foram calculadas a média e a mediana, uma vez que a mediana é menos influenciada por ocorrências com duração muito superior às demais. Como as ocorrências abertas mais recentemente tiveram menos tempo para serem encerradas, calculou-se também, por trimestre de abertura, a proporção encerrada em até 30 dias, considerando apenas as ocorrências com ao menos 30 dias de observação. Como os dados abrangem todas as ocorrências do período, e não uma amostra, os resultados foram tratados de forma descritiva, sem testes de inferência estatística.
+Na análise dos dados, as ocorrências canceladas foram excluídas dos indicadores, de modo que permanecessem apenas as ocorrências efetivamente tratadas no período; delas, registrou-se apenas a etapa em que foram interrompidas. Os dados foram então organizados em estatísticas descritivas: a distribuição percentual das ocorrências por período, por tipo, por forma de abertura, por categoria, por defeito e por cliente; a distribuição das ocorrências segundo a situação e a etapa em que se encontram; o tempo total até o encerramento, calculado pela diferença entre as datas de abertura e de encerramento; a quantidade de ações por ocorrência; e o número de verificações reprovadas. Para os tempos, foram calculadas a média e a mediana, uma vez que a mediana é menos influenciada por ocorrências com duração muito superior às demais. Como as ocorrências abertas mais recentemente tiveram menos tempo para serem encerradas, calculou-se também, por trimestre de abertura, a proporção encerrada em até 30 dias, considerando apenas as ocorrências com ao menos 30 dias de observação. Como os dados abrangem todas as ocorrências do período, e não uma amostra, os resultados foram tratados de forma descritiva, sem testes de inferência estatística.
 
 Os indicadores de tempo foram calculados conforme as Equações~\eqref{eq:tempo} e~\eqref{eq:p30}. Para cada ocorrência encerrada $i$, o tempo até o encerramento é
 \begin{equation}
@@ -239,7 +239,7 @@ em que $d_{\mathrm{ab},i}$ e $d_{\mathrm{enc},i}$ são a data e a hora de abertu
 \end{equation}
 em que $n(t)$ é o número de ocorrências abertas no trimestre $t$ com ao menos 30 dias de observação e $n_{30}(t)$ é o número dessas ocorrências encerradas em até 30 dias após a abertura.
 
-Também foi avaliada a completude dos registros, entendida como a proporção de ocorrências com os principais campos da descrição do problema preenchidos e com ao menos uma ação de cada tipo. Para cada campo, a completude corresponde à razão entre o número de ocorrências com o campo preenchido e o número de ocorrências analisadas, expressa em percentual. A completude é uma das dimensões da qualidade dos dados discutidas por \citeonline{wangstrong1996} e permite verificar se as informações que a aplicação possibilita registrar são, de fato, registradas.
+Também foi avaliada a completude dos registros, entendida como a proporção de ocorrências com os principais campos da ocorrência preenchidos e com ao menos uma ação de cada tipo. Para cada campo, a completude corresponde à razão entre o número de ocorrências com o campo preenchido e o número de ocorrências analisadas, expressa em percentual. A completude é uma das dimensões da qualidade dos dados discutidas por \citeonline[p.~16--17]{wangstrong1996} e permite verificar se as informações que a aplicação possibilita registrar são, de fato, registradas.
 
 Por fim, os resultados das duas frentes foram relacionados. Uma etapa atendida pela aplicação, mas com baixa completude nos dados, indica que o recurso existe, porém é pouco utilizado. Já a concentração de ocorrências em andamento em uma mesma etapa sinaliza um possível ponto de atenção no tratamento das ocorrências. Essas relações são discutidas no Capítulo~\ref{cap:resultados}, considerando os limites apresentados na seção seguinte.
 
@@ -247,8 +247,8 @@ Por fim, os resultados das duas frentes foram relacionados. Uma etapa atendida p
 \label{sec:etica-limitacoes}
 
 A identidade da organização foi preservada durante todo o estudo. A empresa é identificada pelo nome fictício Empresa Alfa, e seu contexto é descrito de forma genérica, sem identificar produtos, clientes, unidades ou pessoas. Os dados extraídos do banco de dados foram anonimizados conforme os procedimentos descritos na Seção~\ref{sec:fontes-coleta}, com a exclusão de dados pessoais, em atenção à Lei Geral de Proteção de Dados Pessoais \cite{brasil2018lgpd}, e a apresentação dos resultados apenas de forma agregada. As capturas de tela, o modelo de domínio, os fluxogramas baseados nos \textit{microflows} e o esquema elétrico da sirene também foram tratados para que não exibam nomes internos ou informações que permitam identificar a organização.
-O uso dos dados, das capturas de tela, do modelo de domínio e da documentação da aplicação para fins acadêmicos foi autorizado por escrito pelo responsável pelo produto na organização, nas condições de anonimização descritas, e o registro dessa autorização está arquivado com o pesquisador e o orientador.
+O uso dos dados, das capturas de tela, do modelo de domínio e da documentação da aplicação para fins acadêmicos foi autorizado por escrito pelo responsável pelo produto na organização, nas condições de anonimização descritas, e o registro dessa autorização está arquivado com o autor e o orientador.
 
-O pesquisador integra a equipe responsável pela aplicação, à qual se juntou em agosto de 2025, quase dois anos após o início do uso (Figura~\ref{fig:linha-tempo}), tendo participado do desenvolvimento de parte de suas funcionalidades. Esse vínculo facilitou o acesso às fontes de evidência, mas pode influenciar a interpretação dos resultados. Para reduzir esse efeito, os critérios de aderência foram definidos com base na literatura antes do exame da aplicação e, quando revistos por sugestão do orientador, foram reaplicados a todas as etapas; além disso, as classificações foram fundamentadas em evidências documentadas, como capturas de tela, o modelo de domínio e os dados extraídos, indicadas para cada etapa no Quadro~\ref{quad:aderencia}.
+O autor integra a equipe responsável pela aplicação, à qual se juntou em agosto de 2025, quase dois anos após o início do uso (Figura~\ref{fig:linha-tempo}), tendo participado do desenvolvimento de parte de suas funcionalidades. Esse vínculo facilitou o acesso às fontes de evidência, mas pode influenciar a interpretação dos resultados. Para reduzir esse efeito, os critérios de aderência foram definidos com base na literatura antes do exame da aplicação e, quando revistos por sugestão do orientador, foram reaplicados a todas as etapas; além disso, as classificações foram fundamentadas em evidências documentadas, como capturas de tela, o modelo de domínio e os dados extraídos, indicadas para cada etapa no Quadro~\ref{quad:aderencia}.
 
-O estudo apresenta limitações que devem ser consideradas na leitura dos resultados. Por se tratar de um estudo de caso único, as conclusões referem-se à aplicação e à organização analisadas e não podem ser generalizadas para outros contextos \cite{yin2018}. Como não há registros suficientes do processo anterior à aplicação, não é possível comparar o desempenho do QRQC antes e depois da digitalização. Os indicadores descrevem o que foi registrado na aplicação no período analisado e dependem da qualidade do preenchimento feito pelos usuários; além disso, a conclusão de uma etapa no sistema não comprova, por si só, a eficácia das ações no processo produtivo. Por fim, a anonimização, embora necessária, reduz o nível de detalhe com que algumas informações podem ser apresentadas. Da mesma forma, a descrição da aplicação é uma síntese elaborada pelo autor, que privilegia os elementos relacionados ao registro e ao acompanhamento do QRQC e não esgota todas as suas funcionalidades.
+O estudo apresenta limitações que devem ser consideradas na leitura dos resultados. Por se tratar de um estudo de caso único, as conclusões referem-se à aplicação e à organização analisadas e dificilmente podem ser generalizadas para outros contextos ou organizações \cite[p.~93]{bhattacherjee2012}. Como não há registros suficientes do processo anterior à aplicação, não é possível comparar o desempenho do QRQC antes e depois da digitalização. Os indicadores descrevem o que foi registrado na aplicação no período analisado e dependem da qualidade do preenchimento feito pelos usuários; além disso, a conclusão de uma etapa no sistema não comprova, por si só, a eficácia das ações no processo produtivo. Por fim, a anonimização, embora necessária, reduz o nível de detalhe com que algumas informações podem ser apresentadas. Da mesma forma, a descrição da aplicação é uma síntese elaborada pelo autor, que privilegia os elementos relacionados ao registro e ao acompanhamento do QRQC e não esgota todas as suas funcionalidades.
