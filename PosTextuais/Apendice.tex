@@ -127,10 +127,10 @@ A Figura~\ref{fig:esquema-sirene} apresenta o esquema elétrico usado para acion
 
 Com o relé energizado, o contato comum (C) fecha com o contato normalmente aberto (NA) e a fonte de alimentação passa a alimentar a sirene; quando a saída volta a nível baixo, o contato abre e a sirene desliga. O relé separa o circuito lógico do Raspberry Pi, de baixa corrente, do circuito de potência da sirene, que tem alimentação própria. Assim, a corrente da sirene não circula pela saída do Raspberry Pi, que apenas comanda o relé. O esquema apresenta apenas a lógica de ligação, para delimitar o escopo da solução: as tensões, as correntes e os modelos dos componentes foram omitidos propositalmente, pois dependem da sirene e da fonte adotadas em cada instalação. Para a implementação, devem ser consultados os manuais dos componentes escolhidos e verificada a compatibilidade entre eles. A sinaleira, também acionada a cada ocorrência criada (Seção~\ref{subsec:integracoes}), é ligada ao mesmo relé e, por isso, é acionada junto com a sirene; ela não foi representada separadamente no esquema.
 
-\begin{figure}[htbp]
+\begin{figure}[!htb]
     \centering
     \caption{Esquema elétrico de acionamento da sirene}\label{fig:esquema-sirene}
-    \includegraphics[width=0.95\textwidth]{Figuras/esquema-sirene.png}
+    \includegraphics[width=0.8\textwidth]{Figuras/esquema-sirene.png}
     \legend{Fonte: documentação interna da aplicação, traduzido pelo autor (2026).}
 \end{figure}
 \end{apendicesenv}
